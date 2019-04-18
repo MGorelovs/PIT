@@ -2,7 +2,7 @@
 <dataSource name="mydb@127.0.0.1">
   <database-model serializer="dbm" dbms="MARIADB" family-id="MARIADB" format-version="4.14">
     <root id="1">
-      <ServerVersion>10.1.37</ServerVersion>
+      <ServerVersion>10.1.36</ServerVersion>
       <Dbms>MARIADB</Dbms>
       <DefaultEngine>InnoDB</DefaultEngine>
       <DefaultCasing>lower/lower</DefaultCasing>
@@ -10,22 +10,22 @@
     <schema id="2" parent="1" name="information_schema">
       <Collation>utf8_general_ci</Collation>
     </schema>
-    <schema id="3" parent="1" name="mydb">
+    <schema id="3" parent="1" name="mdwebsite">
+      <Collation>latin1_swedish_ci</Collation>
+    </schema>
+    <schema id="4" parent="1" name="mydb">
       <Current>1</Current>
       <Visible>1</Visible>
       <Collation>latin1_swedish_ci</Collation>
     </schema>
-    <schema id="4" parent="1" name="mysql">
+    <schema id="5" parent="1" name="mysql">
       <Collation>latin1_swedish_ci</Collation>
     </schema>
-    <schema id="5" parent="1" name="performance_schema">
+    <schema id="6" parent="1" name="performance_schema">
       <Collation>utf8_general_ci</Collation>
     </schema>
-    <schema id="6" parent="1" name="phpmyadmin">
+    <schema id="7" parent="1" name="phpmyadmin">
       <Collation>utf8_bin</Collation>
-    </schema>
-    <schema id="7" parent="1" name="test">
-      <Collation>latin1_swedish_ci</Collation>
     </schema>
     <schema id="8" parent="1" name="veikals">
       <Collation>latin1_swedish_ci</Collation>
@@ -966,82 +966,5 @@
       <Charset>utf8mb4</Charset>
       <DefaultForCharset>0</DefaultForCharset>
     </collation>
-    <table id="243" parent="3" name="tabula"/>
-    <table id="244" parent="3" name="users"/>
-    <column id="245" parent="243" name="id">
-      <Position>1</Position>
-      <DataType>int(6) unsigned|0s</DataType>
-      <NotNull>1</NotNull>
-      <SequenceIdentity>1</SequenceIdentity>
-      <ColumnKind>normal</ColumnKind>
-    </column>
-    <column id="246" parent="243" name="name">
-      <Position>2</Position>
-      <DataType>varchar(30)|0s</DataType>
-      <NotNull>1</NotNull>
-      <ColumnKind>normal</ColumnKind>
-    </column>
-    <column id="247" parent="243" name="expiration_date">
-      <Position>3</Position>
-      <DataType>datetime|0s</DataType>
-      <NotNull>1</NotNull>
-      <ColumnKind>normal</ColumnKind>
-    </column>
-    <key id="248" parent="243" name="PRIMARY">
-      <NameSurrogate>1</NameSurrogate>
-      <ColNames>id</ColNames>
-      <Primary>1</Primary>
-    </key>
-    <column id="249" parent="244" name="id">
-      <Position>1</Position>
-      <DataType>int(11)|0s</DataType>
-      <NotNull>1</NotNull>
-      <SequenceIdentity>1</SequenceIdentity>
-      <ColumnKind>normal</ColumnKind>
-    </column>
-    <column id="250" parent="244" name="fn">
-      <Position>2</Position>
-      <DataType>varchar(32)|0s</DataType>
-      <NotNull>1</NotNull>
-      <ColumnKind>normal</ColumnKind>
-    </column>
-    <column id="251" parent="244" name="ln">
-      <Position>3</Position>
-      <DataType>varchar(32)|0s</DataType>
-      <NotNull>1</NotNull>
-      <ColumnKind>normal</ColumnKind>
-    </column>
-    <column id="252" parent="244" name="email">
-      <Position>4</Position>
-      <DataType>varchar(32)|0s</DataType>
-      <NotNull>1</NotNull>
-      <ColumnKind>normal</ColumnKind>
-    </column>
-    <column id="253" parent="244" name="password">
-      <Position>5</Position>
-      <DataType>varchar(32)|0s</DataType>
-      <NotNull>1</NotNull>
-      <ColumnKind>normal</ColumnKind>
-    </column>
-    <column id="254" parent="244" name="userType">
-      <Position>6</Position>
-      <DataType>tinyint(1)|0s</DataType>
-      <NotNull>1</NotNull>
-      <ColumnKind>normal</ColumnKind>
-    </column>
-    <index id="255" parent="244" name="users_email_uindex">
-      <ColNames>email</ColNames>
-      <Unique>1</Unique>
-      <Type>btree</Type>
-    </index>
-    <key id="256" parent="244" name="PRIMARY">
-      <NameSurrogate>1</NameSurrogate>
-      <ColNames>id</ColNames>
-      <Primary>1</Primary>
-    </key>
-    <key id="257" parent="244" name="users_email_uindex">
-      <ColNames>email</ColNames>
-      <UnderlyingIndexName>users_email_uindex</UnderlyingIndexName>
-    </key>
   </database-model>
 </dataSource>

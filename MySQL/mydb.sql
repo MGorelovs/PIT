@@ -81,7 +81,7 @@ CREATE TABLE pieteikumi
   fk_sacID    int unsigned not null,
   fk_dejparID int unsigned not null,
   fk_grID     int unsigned not null,
-  parbaudits  boolean not null,
+  parbaudits  boolean,
   FOREIGN KEY (fk_sacID) REFERENCES sacensibas (sacID) ON DELETE CASCADE,
   FOREIGN KEY (fk_dejparID) REFERENCES deju_pari (dejparID) ON DELETE CASCADE,
   FOREIGN KEY (fk_grID) REFERENCES sacensibu_grupas (grID) ON DELETE CASCADE

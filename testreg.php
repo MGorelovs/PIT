@@ -16,7 +16,7 @@
     $email = trim($email);
     $password = trim($password);
 
-    include ("bd.php");
+    include("db.php");
 
     $result = $db ->query("SELECT * FROM users WHERE email='$email'");
     $myrow = mysqli_fetch_array($result);

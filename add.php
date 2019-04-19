@@ -6,7 +6,7 @@ if (isset($_POST['name'])) {
     }
 }
 
-include ("bd.php");
+include("db.php");
 
 $result2 = $db->query ("INSERT INTO tabula (name, expiration_date) VALUES('$name', now())");
 

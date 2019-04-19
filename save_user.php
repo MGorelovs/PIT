@@ -46,7 +46,7 @@
     $lastname = trim($lastname);
 
 
-    include ("bd.php");
+    include("db.php");
 
 
     $result = $db->query("SELECT id FROM users WHERE email='$email'");

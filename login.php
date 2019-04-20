@@ -35,39 +35,39 @@ if (session_status() == PHP_SESSION_NONE) {
 
     <div class="loginform">
 
-      <ul class="tab-group">
-        <li class="tab active"><a href="#signup">Registrācija</a></li>
-        <li class="tab"><a href="#login">Autorizācija</a></li>
-      </ul>
+        <!--      <ul class="tab-group">-->
+        <!--        <li class="tab active"><a href="#signup">Registrācija</a></li>-->
+        <!--        <li class="tab"><a href="#login">Autorizācija</a></li>-->
+        <!--      </ul>-->
 
-      <div class="tab-content">
-        <div id="signup">
-
-          <form action="save_user.php" method="post">
-
-            <div class="top-row">
-              <div class="field-wrap">
-                <input name="firstname" type="text" placeholder="Vārds" required autocomplete="off" />
-              </div>
-
-              <div class="field-wrap">
-                <input name="lastname" type="text" placeholder="Uzvārds" required autocomplete="off"/>
-              </div>
-            </div>
-
-            <div class="field-wrap">
-              <input name="email" type="email" placeholder="E-pasta Adrese" required autocomplete="off"/>
-            </div>
-
-            <div class="field-wrap">
-              <input name="password" type="password" placeholder="Parole" required autocomplete="off"/>
-            </div>
-
-            <button type="submit" class="button1 button-block"/>Reģistrēties</button>
-
-          </form>
-
-        </div>
+        <!--      <div class="tab-content">-->
+        <!--        <div id="signup">-->
+        <!---->
+        <!--          <form action="save_user.php" method="post">-->
+        <!---->
+        <!--            <div class="top-row">-->
+        <!--              <div class="field-wrap">-->
+        <!--                <input name="firstname" type="text" placeholder="Vārds" required autocomplete="off" />-->
+        <!--              </div>-->
+        <!---->
+        <!--              <div class="field-wrap">-->
+        <!--                <input name="lastname" type="text" placeholder="Uzvārds" required autocomplete="off"/>-->
+        <!--              </div>-->
+        <!--            </div>-->
+        <!---->
+        <!--            <div class="field-wrap">-->
+        <!--              <input name="email" type="email" placeholder="E-pasta Adrese" required autocomplete="off"/>-->
+        <!--            </div>-->
+        <!---->
+        <!--            <div class="field-wrap">-->
+        <!--              <input name="password" type="password" placeholder="Parole" required autocomplete="off"/>-->
+        <!--            </div>-->
+        <!---->
+        <!--            <button type="submit" class="button1 button-block"/>Reģistrēties</button>-->
+        <!---->
+        <!--          </form>-->
+        <!---->
+        <!--        </div>-->
 
         <div id="login">
 
@@ -89,7 +89,7 @@ if (session_status() == PHP_SESSION_NONE) {
 
         </div>
 
-      </div><!-- tab-content -->
+        <!--      </div><!-- tab-content -->
 
     </div> <!-- /form -->
     <script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>

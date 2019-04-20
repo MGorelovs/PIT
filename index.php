@@ -31,39 +31,39 @@
     include ("header.php");
     ?>
 
-    <!-- Two -->
-        <section id="two" class="wrapper style2 special">
-            <div class="container">
-                <header class="major">
-                    <h2>Virsraksts</h2>
-                    <p>Kaut kāds teksts.</p>
-                </header>
-                <section class="profiles">
-                    <div class="row">
-                        <section class="3u 6u(medium) 12u$(xsmall) profile">
-                            <img src="images/profile_placeholder.gif" alt="" />
-                            <h4>Maksims Gorelovs</h4>
-                            <p>Menedžers</p>
-                        </section>
-                        <section class="3u 6u$(medium) 12u$(xsmall) profile">
-                            <img src="images/profile_placeholder.gif" alt="" />
-                            <h4>Maksims Gorelovs</h4>
-                            <p>Front-End</p>
-                        </section>
-                        <section class="3u 6u(medium) 12u$(xsmall) profile">
-                            <img src="images/profile_placeholder.gif" alt="" />
-                            <h4>Maksims Gorelovs</h4>
-                            <p>Back-End</p>
-                        </section>
-                        <section class="3u$ 6u$(medium) 12u$(xsmall) profile">
-                            <img src="images/profile_placeholder.gif" alt="" />
-                            <h4>Maksims Gorelovs</h4>
-                            <p>QA</p>
-                        </section>
-                    </div>
-                </section>
+    <!-- One -->
+    <section id="one" class="wrapper style1 special">
+        <div class="container">
+            <header class="major">
+                <h2>Latvijas Sporta deju federācija </h2>
+                <p>Laipni lūdzam Latvijas Sporta deju federācijas mājas lapā!</p>
+            </header>
+            <div class="row 150%">
+                <div class="4u 12u$(medium)">
+                    <section class="box">
+                        <i class="icon big rounded color1 fa-cloud"></i>
+                        <h3>Ziņas 3 virsraksts</h3>
+                        <p>Pēdejas ziņas īss apraksts ar linku... <a href="article3.php">Lasīt tālāk</a> </p>
+                    </section>
+                </div>
+                <div class="4u 12u$(medium)">
+                    <section class="box">
+                        <i class="icon big rounded color9 fa-desktop"></i>
+                        <h3>Ziņas 2 virsraksts</h3>
+                        <p>Priekšpēdejas ziņas īss apraksts ar linku... <a href="article2.php">Lasīt tālāk</a></p>
+                    </section>
+                </div>
+                <div class="4u$ 12u$(medium)">
+                    <section class="box">
+                        <i class="icon big rounded color6 fa-rocket"></i>
+                        <h3>Ziņas 1 virsraksts</h3>
+                        <p>Pirmas ziņas īss apraksts ar linku... <a href="article1.php">Lasīt tālāk</a></p>
+                    </section>
+                </div>
             </div>
-        </section>
+        </div>
+    </section>
+
 
 
     <?php

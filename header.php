@@ -1,9 +1,10 @@
 <?php ?>
     <header id="header">
-        <h1><a href="index.php">PHP</a></h1>
+        <h1><a href="index.php">LSDF</a></h1>
         <nav id="nav">
             <ul>
                 <li><a href="index.php">Sākums</a></li>
+                <li><a href="contacts.php">Kontakti</a></li>
                 <?php if(isset($_SESSION['id'])){ ?>
                     <li><a href="databases.php">MySQL</a></li>
                 <?php } ?>

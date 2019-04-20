@@ -18,17 +18,17 @@
 
     include("db.php");
 
-$result = $db->query("SELECT * FROM darbinieki WHERE darbEpasts='$email'");
+    $result = $db->query("SELECT * FROM darbinieki WHERE darbEpasts='$email'");
     $myrow = mysqli_fetch_array($result);
-if (empty($myrow['darbParole']))
-    {
-        exit ("Ievadīts e-pasts vai parole ir nepareizs");
-    }
+    if (empty($myrow['darbParole']))
+        {
+            exit ("Ievadīts e-pasts vai parole ir nepareizs");
+        }
     else {
         if ($myrow['darbParole'] == $password) {
             $_SESSION['email'] = $myrow['darbEpasts'];
             $_SESSION['id'] = $myrow['darbID'];
-//            $_SESSION['userType']=$myrow['userType'];
+            $_SESSION['authorized'] = "Yes";
             header("Location: index.php");
             exit();
         }

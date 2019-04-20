@@ -10,6 +10,6 @@ include("db.php");
 
 $result2 = $db->query ("INSERT INTO tabula (name, expiration_date) VALUES('$name', now())");
 
-header("Location: databases.php");
+header("Location: sacensibas.php");
 exit();
 ?>

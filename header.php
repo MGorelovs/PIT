@@ -5,9 +5,7 @@
             <ul>
                 <li><a href="index.php">Sākums</a></li>
                 <li><a href="contacts.php">Kontakti</a></li>
-                <?php if(isset($_SESSION['id'])){ ?>
-                    <li><a href="databases.php">MySQL</a></li>
-                <?php } ?>
+                <li><a href="sacensibas.php">Sacensības</a></li>
                 <li><a href="playlist.php">Spotify</a></li>
                 <?php if(isset($_SESSION['id'])): ?>
                     <li><a href="logout.php" class="button special">Iziet</a></li>

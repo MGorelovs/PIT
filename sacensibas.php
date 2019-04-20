@@ -3,10 +3,6 @@ if (session_status() == PHP_SESSION_NONE) {
     session_start();
 }
 
-if(empty($_SESSION['id'])){
-    header("Location: index.php");
-    exit();
-}
 ?>
 
 <!DOCTYPE html>
@@ -71,7 +67,7 @@ include("db.php");
 
 
                     while($row = mysqli_fetch_assoc($result)) {
-                        if ($_SESSION['userType'] == 1) {
+                        if ($_SESSION['authorized'] == "Yes") {
 
                             echo "<tr>";
                             echo "<th>" . $row['sacNosaukums'] . "</th>" . "<th>" . $row['sacDatums'] . "</th>" . "<th>" . $row['sacVieta'] . "</th>" . "<th><a class=\"icon fa-edit\"></a></th>";
@@ -96,7 +92,7 @@ include("db.php");
         </section>
     </div>
 </section>
-<?php if($_SESSION['userType'] == 1){  ?>
+<?php if($_SESSION['authorized'] == "Yes"){  ?>
 <section id="three" class="wrapper style3 special">
     <div class="container 50%">
         <form action="add.php" method="post">

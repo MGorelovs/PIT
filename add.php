@@ -1,5 +1,4 @@
 <?php
-
 $sacNosaukums = $_POST['sacNosaukums'];
 $sacDatums = $_POST['sacDatums'];
 $sacVieta = $_POST['sacVieta'];

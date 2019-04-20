@@ -448,6 +448,17 @@
 			display: none;
 		}
 
+		.icon.fa-edit {
+			color: #474747;
+			border-radius: 100%;
+			display: inline-block;
+			height: 3.25em;
+			width: 3.25em;
+			line-height: 3.25em;
+			text-align: center;
+			background-color: transparent;
+		}
+
 		.icon.rounded {
 			background-color: #383b43;
 			border-radius: 100%;
@@ -527,6 +538,8 @@
 			.icon.rounded.fa-rss {
 				background-color: #f2600b;
 			}
+
+
 
 /* Image */
 

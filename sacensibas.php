@@ -55,25 +55,37 @@ include("db.php");
                 <table>
                     <thead>
                     <tr>
-                        <th>Id</th>
-                        <th>Name</th>
-                        <th>Expiration date</th>
+                        <th>Sacensību nosaukums</th>
+                        <th>Datums</th>
+                        <th>Vieta/Adrese</th>
+                        <th></th>
                     </tr>
                     </thead>
 
                     <tbody>
                     <?php
-
-                    $result = $db->query("SELECT * FROM tabula");
+                    $db->query("SET NAMES utf8mb4");
+                    $result = $db->query("SELECT * FROM sacensibas");
                     echo "</br>".$db->error;
 
-                    while($row = mysqli_fetch_assoc($result)){
-                        echo "<tr>";
-                        echo "<th>".$row['id']."</th>"."<th>".$row['name']."</th>"."<th>".$row['expiration_date']."</th>";
-                        echo "</tr>";
+
+
+                    while($row = mysqli_fetch_assoc($result)) {
+                        if ($_SESSION['userType'] == 1) {
+
+                            echo "<tr>";
+                            echo "<th>" . $row['sacNosaukums'] . "</th>" . "<th>" . $row['sacDatums'] . "</th>" . "<th>" . $row['sacVieta'] . "</th>" . "<th><a class=\"icon fa-edit\"></a></th>";
+                            echo "</tr>";
+
+                        } else {
+
+                            echo "<tr>";
+                            echo "<th>" . $row['sacNosaukums'] . "</th>" . "<th>" . $row['sacDatums'] . "</th>" . "<th>" . $row['sacVieta'] . "</th>";
+                            echo "</tr>";
+
+                        }
+
                     }
-
-
                     $db->close();
                     ?>
 

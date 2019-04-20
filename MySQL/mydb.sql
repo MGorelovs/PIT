@@ -43,7 +43,9 @@ CREATE TABLE sacensibu_grupas
 (
   grID          int unsigned unique not null primary key auto_increment,
   grVecumaGrupa varchar(50) not null,
-  grKlase       varchar(10) not null
+  grKlase       varchar(10) not null,
+  fk_sacID      int unsigned not null,
+  FOREIGN KEY (fk_sacID) REFERENCES sacensibas (sacID)
 );
 
 CREATE TABLE sacensibas
@@ -51,9 +53,7 @@ CREATE TABLE sacensibas
   sacID        int unsigned unique not null primary key auto_increment,
   sacNosaukums varchar(50) not null,
   sacDatums    date not null,
-  sacVieta     varchar(50) not null,
-  fk_grID      int unsigned not null,
-  FOREIGN KEY (fk_grID) REFERENCES sacensibu_grupas (grID)
+  sacVieta     varchar(50) not null
 );
 CREATE TABLE dejotaji
 (

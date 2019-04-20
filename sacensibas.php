@@ -43,8 +43,8 @@ include("db.php");
     <div class="container">
 
         <header class="major">
-            <h2>Ieraksti</h2>
-            <p>Šeit ir attēloti ieraksti, kas ir izmantoti datubāzē</p>
+            <h2>Sacensības</h2>
+            <p>Sacensību saraksts</p>
         </header>
 
 

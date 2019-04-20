@@ -2,42 +2,50 @@ DROP DATABASE IF EXISTS mydb;
 CREATE DATABASE mydb;
 USE mydb;
 
-CREATE TABLE `tabula`
-(
-  `id`              int(6) UNSIGNED NOT NULL,
-  `name`            varchar(30)     NOT NULL,
-  `expiration_date` datetime        NOT NULL
-) ENGINE = InnoDB
-  DEFAULT CHARSET = latin1;
+# CREATE TABLE `tabula`
+# (
+#   `id`              int(6) UNSIGNED NOT NULL,
+#   `name`            varchar(30)     NOT NULL,
+#   `expiration_date` datetime        NOT NULL
+# ) ENGINE = InnoDB
+#   DEFAULT CHARSET = latin1;
 
-CREATE TABLE `users`
-(
-  `id`       int(11)     NOT NULL,
-  `fn`       varchar(32) NOT NULL,
-  `ln`       varchar(32) NOT NULL,
-  `email`    varchar(32) NOT NULL,
-  `password` varchar(32) NOT NULL,
-  `userType` tinyint(1)  NOT NULL
-) ENGINE = InnoDB
-  DEFAULT CHARSET = latin1;
+# CREATE TABLE `users`
+# (
+#   `id`       int(11)     NOT NULL,
+#   `fn`       varchar(32) NOT NULL,
+#   `ln`       varchar(32) NOT NULL,
+#   `email`    varchar(32) NOT NULL,
+#   `password` varchar(32) NOT NULL,
+#   `userType` tinyint(1)  NOT NULL
+# ) ENGINE = InnoDB
+#   DEFAULT CHARSET = latin1;
 
-ALTER TABLE `tabula`
-  ADD PRIMARY KEY (`id`);
-
-ALTER TABLE `users`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `users_email_uindex` (`email`);
-
-ALTER TABLE `tabula`
-  MODIFY `id` int(6) UNSIGNED NOT NULL AUTO_INCREMENT,
-  AUTO_INCREMENT = 6;
-
-ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,
-  AUTO_INCREMENT = 5;
-COMMIT;
+# ALTER TABLE `tabula`
+#   ADD PRIMARY KEY (`id`);
+#
+# ALTER TABLE `users`
+#   ADD PRIMARY KEY (`id`),
+#   ADD UNIQUE KEY `users_email_uindex` (`email`);
+#
+# ALTER TABLE `tabula`
+#   MODIFY `id` int(6) UNSIGNED NOT NULL AUTO_INCREMENT,
+#   AUTO_INCREMENT = 6;
+#
+# ALTER TABLE `users`
+#   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,
+#   AUTO_INCREMENT = 5;
+# COMMIT;
 
 #PIT DB:
+
+CREATE TABLE sacensibas
+(
+  sacID        int unsigned unique not null primary key auto_increment,
+  sacNosaukums varchar(50)         not null,
+  sacDatums    date                not null,
+  sacVieta     varchar(50)         not null
+);
 
 CREATE TABLE sacensibu_grupas
 (
@@ -48,13 +56,6 @@ CREATE TABLE sacensibu_grupas
   FOREIGN KEY (fk_sacID) REFERENCES sacensibas (sacID)
 );
 
-CREATE TABLE sacensibas
-(
-  sacID        int unsigned unique not null primary key auto_increment,
-  sacNosaukums varchar(50) not null,
-  sacDatums    date not null,
-  sacVieta     varchar(50) not null
-);
 CREATE TABLE dejotaji
 (
   dejotID              int unsigned unique not null primary key auto_increment,
@@ -108,8 +109,9 @@ CREATE TABLE deju_gajieni
 CREATE TABLE darbinieki
 (
   darbID             int unsigned unique not null primary key auto_increment,
-  darbLietotajaVards varchar(50) not null,
-  darbParole         varchar(50) not null
+  darbLietotajaVards varchar(50)         not null,
+  darbParole         varchar(50)         not null,
+  darbEpasts         varchar(50)         not null
 );
 
 CREATE TABLE sacensibu_rezultati
@@ -119,4 +121,7 @@ CREATE TABLE sacensibu_rezultati
   fk_regID int unsigned not null,
   FOREIGN KEY (fk_regID) REFERENCES registretie_pari (regID)
 );
+
+#default admin
+insert into darbinieki values (null,'admin','admin','admin@admin.com');
 

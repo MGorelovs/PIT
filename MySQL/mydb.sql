@@ -122,3 +122,6 @@ CREATE TABLE sacensibu_rezultati
   FOREIGN KEY (fk_regID) REFERENCES registretie_pari (regID)
 );
 
+#default admin
+insert into darbinieki values (null,'admin','admin','admin@admin.com');
+

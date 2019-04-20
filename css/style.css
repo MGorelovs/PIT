@@ -8,6 +8,8 @@
 	Released for free under the Creative Commons Attribution 3.0 license (templated.co/license)
 */
 
+
+
 /* Basic */
 
 	body {
@@ -744,7 +746,11 @@
 			}
 
 		table td {
+			color: #474747;
+			font-size: 0.9em;
+			font-weight: 700;
 			padding: 0.75em 0.75em;
+			text-align: left;
 		}
 
 		table th {

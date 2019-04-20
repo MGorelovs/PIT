@@ -36,7 +36,7 @@ include ("header.php");
 ?>
 
 <?php
-include ("bd.php");
+include("db.php");
 ?>
 <!-- Main -->
 <section id="main" class="wrapper">

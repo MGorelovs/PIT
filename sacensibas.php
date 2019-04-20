@@ -101,8 +101,8 @@ include("db.php");
                                     <tr>
                                         <td><input id="sacNosaukums" name="sacNosaukums" type="text"
                                                    placeholder="Sacensibu nosaukums"></td>
-                                        <td><input id="sacDatums" name="sacDatums" type="date"
-                                                   placeholder="Sacensibu nosaukums"></td>
+                                        <td><input style="width:100%" id="sacDatums" name="sacDatums" type="date"
+                                                   placeholder="Sacensibu datums"></td>
                                         <td><input id="sacVieta" name="sacVieta" type="text"
                                                    placeholder="Sacensibu vieta">
                                         </td>

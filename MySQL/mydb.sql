@@ -2,6 +2,7 @@ DROP DATABASE IF EXISTS mydb;
 CREATE DATABASE mydb;
 USE mydb;
 
+
 # CREATE TABLE `tabula`
 # (
 #   `id`              int(6) UNSIGNED NOT NULL,
@@ -45,7 +46,7 @@ CREATE TABLE sacensibas
   sacNosaukums varchar(50)         not null,
   sacDatums    date                not null,
   sacVieta     varchar(50)         not null
-);
+)DEFAULT CHAR SET = 'utf16';
 
 CREATE TABLE sacensibu_grupas
 (
@@ -54,7 +55,7 @@ CREATE TABLE sacensibu_grupas
   grKlase       varchar(10) not null,
   fk_sacID      int unsigned not null,
   FOREIGN KEY (fk_sacID) REFERENCES sacensibas (sacID)
-);
+)DEFAULT CHAR SET = 'utf16';
 
 CREATE TABLE dejotaji
 (
@@ -64,7 +65,7 @@ CREATE TABLE dejotaji
   dejotDzimums         varchar(1) not null,
   dejotVecumaGrupa     varchar(50) not null,
   dejotKlase           varchar(10) not null
-);
+)DEFAULT CHAR SET = 'utf16';
 
 CREATE TABLE deju_pari
 (
@@ -73,7 +74,7 @@ CREATE TABLE deju_pari
   dejparPartneresID        int unsigned not null,
   dejparDibinasanasDatums  date not null,
   dejparLikvidacijasDatums date
-);
+)DEFAULT CHAR SET = 'utf16';
 
 CREATE TABLE pieteikumi
 (
@@ -86,14 +87,14 @@ CREATE TABLE pieteikumi
   FOREIGN KEY (fk_sacID) REFERENCES sacensibas (sacID) ON DELETE CASCADE,
   FOREIGN KEY (fk_dejparID) REFERENCES deju_pari (dejparID) ON DELETE CASCADE,
   FOREIGN KEY (fk_grID) REFERENCES sacensibu_grupas (grID) ON DELETE CASCADE
-);
+)DEFAULT CHAR SET = 'utf16';
 
 CREATE TABLE registretie_pari
 (
   regID     int unsigned unique not null primary key auto_increment,
   fk_pietID int unsigned unique not null,
   FOREIGN KEY (fk_pietID) REFERENCES pieteikumi (pietID)
-);
+)DEFAULT CHAR SET = 'utf16';
 
 CREATE TABLE deju_gajieni
 (
@@ -104,7 +105,7 @@ CREATE TABLE deju_gajieni
   dejgajNosaukums varchar(30) not null,
   dejgajNumurs    int not null,
   FOREIGN KEY (fk_regID) REFERENCES registretie_pari (regID)
-);
+)DEFAULT CHAR SET = 'utf16';
 
 CREATE TABLE darbinieki
 (
@@ -112,7 +113,7 @@ CREATE TABLE darbinieki
   darbLietotajaVards varchar(50)         not null,
   darbParole         varchar(50)         not null,
   darbEpasts         varchar(50)         not null
-);
+)DEFAULT CHAR SET = 'utf16';
 
 CREATE TABLE sacensibu_rezultati
 (
@@ -120,7 +121,7 @@ CREATE TABLE sacensibu_rezultati
   vieta    int unsigned not null,
   fk_regID int unsigned not null,
   FOREIGN KEY (fk_regID) REFERENCES registretie_pari (regID)
-);
+)DEFAULT CHAR SET = 'utf16';
 
 #default admin
 insert into darbinieki values (null,'admin','admin','admin@admin.com');

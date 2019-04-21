@@ -35,9 +35,9 @@ $result = mysqli_query($connect, $query);
                 echo '
       <tr>
        <td>'.$row["sacID"].'</td>
-       <td>'.$row["sacVieta"].'</td>
+       <td>'.$row["sacNosaukums"].'</td>
        <td>'.$row["sacDatums"].'</td>
-       <td>'.$row["sacNosaukums"]/'</td>
+       <td>'.$row["sacVieta"]/'</td>
       </tr>
       ';
             }

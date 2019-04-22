@@ -73,7 +73,9 @@ CREATE TABLE deju_pari
   dejparPartneraID         int unsigned not null,
   dejparPartneresID        int unsigned not null,
   dejparDibinasanasDatums  date not null,
-  dejparLikvidacijasDatums date
+  dejparLikvidacijasDatums date,
+  FOREIGN KEY (dejparPartneraID) references dejotaji (dejotID),
+  FOREIGN KEY (dejparPartneresID) references dejotaji (dejotID)
 )DEFAULT CHAR SET = 'utf8';
 
 CREATE TABLE pieteikumi

@@ -1,33 +1,20 @@
 <?php
-//action.php
-$connect = mysqli_connect('127.0.0.1', 'root', '0000', 'testing');
+$mysqli = new mysqli('127.0.0.1', 'root', '0000', 'mydb');
 
+if (mysqli_connect_errno()) {
+    echo json_encode(array('mysqli' => 'Failed to connect to MySQL: ' . mysqli_connect_error()));
+    exit;
+}
+
+header('Content-Type: application/json');
 $input = filter_input_array(INPUT_POST);
 
-$sacNosaukums = mysqli_real_escape_string($connect, $input["sacNosaukums"]);
-$sacDatums = mysqli_real_escape_string($connect, $input["sacDatums"]);
-$sacVieta = mysqli_real_escape_string($connect, $input["sacVieta"]);
 
-if($input["action"] === 'edit')
-{
-    $query = "
- UPDATE sacensibas 
- SET sacNosaukums = '".$sacNosaukums."', 
- sacDatums = '".$sacDatums."',
- sacVieta = '".$sacVieta."' 
- WHERE sacID = '".$input["sacID"]."'
- ";
-
-    mysqli_query($connect, $query);
-
-}
-if($input["action"] === 'delete')
-{
-    $query = "
- DELETE FROM sacensibas 
- WHERE sacID = '".$input["sacID"]."'
- ";
-    mysqli_query($connect, $query);
+if ($input['action'] == 'edit') {
+    $mysqli->query("UPDATE sacensibas SET sacNosaukums='" . $input['sacNosaukums'] . "', sacDatums='" . $input['sacDatums'] . "', sacVieta='" . $input['sacVieta'] . "'  WHERE sacID='" . $input['sacID'] . "'");
+} else if ($input['action'] == 'delete') {
+    $mysqli->query("DELETE FROM sacensibas WHERE sacID='" . $input['sacID'] . "'");
+    echo "<meta http-equiv='refresh' content='0'>";
 }
 
 echo json_encode($input);

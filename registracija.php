@@ -48,7 +48,7 @@ include("db.php");
                         <select name="event" id="event">
                             <?php
 
-                            $sacList = $db->query("SELECT * FROM sacensibas ORDER BY sacDatums DESC");
+                            $sacList = $db->query("SELECT * FROM sacensibas ORDER BY sacDatums ASC");
                             while ($row = mysqli_fetch_array($sacList)) {
 
 

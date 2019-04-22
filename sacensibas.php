@@ -38,9 +38,6 @@ $result = mysqli_query($db, $query);
 include ("header.php");
 ?>
 
-<?php
-include("db.php");
-?>
 <!-- Main -->
 <section id="main" class="wrapper">
     <div class="container">
@@ -58,6 +55,7 @@ include("db.php");
                 <table id="sacensibas" class="table table-bordered table-striped">
                     <thead>
                     <tr>
+                        <th>ID</th>
                         <th>Sacensību nosaukums</th>
                         <th>Datums</th>
                         <th>Vieta/Adrese</th>
@@ -70,6 +68,7 @@ include("db.php");
                         {
                             echo '
                                 <tr>
+                                    <td>'.$row["sacID"].'</td>
                                     <td>'.$row["sacNosaukums"].'</td>
                                     <td>'.$row["sacDatums"].'</td>
                                     <td>'.$row["sacVieta"].'</td>
@@ -95,8 +94,8 @@ include("db.php");
                                     <tr>
                                         <td><input id="sacNosaukums" name="sacNosaukums" type="text"
                                                    placeholder="Sacensibu nosaukums"></td>
-                                        <td><input style="width:100%" id="sacDatums" name="sacDatums" type="date"
-                                                   placeholder="Sacensibu nosaukums"></td>
+                                        <td><input id="sacDatums" name="sacDatums" type="date"
+                                                   placeholder="Sacensibu datums"></td>
                                         <td><input id="sacVieta" name="sacVieta" type="text"
                                                    placeholder="Sacensibu vieta">
                                         </td>
@@ -130,10 +129,10 @@ include("db.php");
 </html>
 <script>
 
-    <?php if(isset($_SESSION['authorized'])): ?>
     $(document).ready(function(){
         $('#sacensibas').Tabledit({
             url:'action.php',
+            hideIdentifier: true,
             columns:{
                 identifier:[0, 'sacID'],
                 editable:[[1, "sacNosaukums"], [2, 'sacDatums'], [3, "sacVieta"]]
@@ -160,5 +159,5 @@ include("db.php");
         });
 
     });
-    <?php endif; ?>
+
 </script>

@@ -22,6 +22,8 @@ $result = mysqli_query($db, $query);
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
     <script src="js/jquery.tabledit.min.js"></script>
+    <script src="js/bootstrap-datepicker.min.js"></script>
+    <script src="locales/bootstrap-datepicker.lv.min.js"></script>
     <script src="js/skel.min.js"></script>
     <script src="js/skel-layers.min.js"></script>
     <script src="js/init.js"></script>
@@ -144,6 +146,22 @@ include ("header.php");
                 {
                     $('#'+data.id).remove();
                 }
+                if (data.type && data.message) {
+                    $('.alert-container').Alertiny(data.type, data.message);
+                }
+            },
+            onDraw: function() {
+                $('table tbody tr td:nth-child(3)').each(function() {
+                    $(this).datepicker({
+                        format: 'yyyy-mm-dd',
+                        todayHighlight: true,
+                        autoFocus: false,
+                        startDate: '+1d',
+                        weekStart: 1,
+                        autoclose: true,
+                        language: 'lv'
+                    });
+                });
             },
             onFail: function(jqXHR, textStatus, errorThrown) {
                 console.log('onFail(jqXHR, textStatus, errorThrown)');

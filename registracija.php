@@ -37,10 +37,8 @@ include("db.php");
 <!-- Two -->
 <section id="two" class="wrapper style2 special">
     <div class="container">
-        <header class="major">
-            <h2>Reģistrācija</h2>
-            <p>Lūdzu ievadiet informāciju:</p>
-        </header>
+
+
         <form action="addReg.php" method="post">
 
             <table style="margin-bottom: 0px">
@@ -324,9 +322,6 @@ include("db.php");
                         <style>
                             #gr th {text-align: center};
                             #gr tr {height: 20px};
-
-                            #test {width:25px; height: 25px};
-
                         </style>
                         <table id="gr">
                             <tr>
@@ -342,7 +337,7 @@ include("db.php");
                             while ($row = mysqli_fetch_array($grList)) {
                                 echo "<tr>
                                         <td>".
-                                    "<input type='checkbox' id='test'>"
+                                    "<input type='checkbox' id='test' name=\"form_group[]\" value=".$row['grID'].">"
                                     ."</td>
                                         <td>".
                                     $row['grID']
@@ -373,6 +368,5 @@ include("db.php");
 <?php
 include("footer.php");
 ?>
-
 </body>
 </html>

@@ -1,5 +1,6 @@
 <?php
 $mysqli = new mysqli('127.0.0.1', 'root', '0000', 'mydb');
+$mysqli->query("SET NAMES utf8mb4");
 
 if (mysqli_connect_errno()) {
     echo json_encode(array('mysqli' => 'Failed to connect to MySQL: ' . mysqli_connect_error()));

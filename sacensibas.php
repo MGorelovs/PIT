@@ -3,6 +3,10 @@ if (session_status() == PHP_SESSION_NONE) {
     session_start();
 }
 
+$db = mysqli_connect("127.0.0.1", "root", "0000", "mydb");
+$db->query("SET NAMES utf8mb4");
+$query = "SELECT * FROM sacensibas ORDER BY sacDatums ASC";
+$result = mysqli_query($db, $query);
 ?>
 
 <!DOCTYPE html>
@@ -57,78 +61,30 @@ include("db.php");
                         <th>Sacensību nosaukums</th>
                         <th>Datums</th>
                         <th>Vieta/Adrese</th>
-                        <th class="tabledit-toolbar-column"></th>
                     </tr>
                     </thead>
 
                     <tbody>
-                    <?php
-                    $db->query("SET NAMES utf8mb4");
-                    $result = $db->query("SELECT * FROM sacensibas ORDER BY sacDatums DESC");
-                    echo "</br>" . $db->error;
-
-
-                    while($row = mysqli_fetch_array($result))
-                    {
-
-                        if ($_SESSION['authorized'] == "Yes")
+                        <?php
+                        while($row = mysqli_fetch_array($result))
                         {
-
                             echo '
                                 <tr>
-	                                <td class="tabledit-view-mode">
-		                                <span class="tabledit-span">'.$row["sacNosaukums"].'</span>
-		                                <input class="tabledit-input form-control input-sm" type="text" name="nosaukums" value="'.$row["sacNosaukums"].'" style="display: none;" disabled="">
-	                                </td>
-	
-	                                <td class="tabledit-view-mode">
-		                                <span class="tabledit-span">'.$row["sacDatums"].'</span>
-		                                <input class="tabledit-input form-control input-sm" type="text" name="datums" value="'.$row["sacDatums"].'" style="display: none;" disabled="">
-	                                </td>
-
-	                                <td class="tabledit-view-mode">
-		                                <span class="tabledit-span">'.$row["sacVieta"].'</span>
-		                                <input class="tabledit-input form-control input-sm" type="text" name="vieta" value="'.$row["sacVieta"].'" style="display: none;" disabled="">
-	                                </td>
-	
-	                                <td style="white-space: nowrap; width: 1%;">
-		                                <div class="tabledit-toolbar btn-toolbar" style="text-align: left;">
-			                               <div class="btn-group btn-group-sm" style="float: none;">
-				                                <button type="button" class="tabledit-edit-button btn btn-sm btn-default" style="float: none;">
-					                                <span class="glyphicon glyphicon-pencil"></span>
-				                                </button>
-				                                <button type="button" class="tabledit-delete-button btn btn-sm btn-default active" style="float: none;">
-					                                <span class="glyphicon glyphicon-trash"></span>
-				                                </button>
-			                                </div>
-			                                <button type="button" class="tabledit-save-button btn btn-sm btn-success" style="display: none; float: none;">Save</button>
-			                                <button type="button" class="tabledit-confirm-button btn btn-sm btn-danger" style="float: none;">Confirm</button>
-			                                <button type="button" class="tabledit-restore-button btn btn-sm btn-warning" style="display: none; float: none;">Restore</button>
-		                                </div>
-	                                </td>
+                                    <td>'.$row["sacNosaukums"].'</td>
+                                    <td>'.$row["sacDatums"].'</td>
+                                    <td>'.$row["sacVieta"].'</td>
                                 </tr>
-                                ';
-
+                            ';
                         }
-                        else
-                        {
-
-                            echo "<tr>";
-                            echo "<td>" . $row['sacNosaukums'] . "</td>" . "<td>" . $row['sacDatums'] . "</td>" . "<td>" . $row['sacVieta'] . "</td>";
-                            echo "</tr>";
-
-                        }
-
-                    }
-                    $db->close();
-                    ?>
-
+                        ?>
                     </tbody>
+
                 </table>
             </div>
 
         </section>
-        <?php if ($_SESSION['authorized'] == "Yes") { ?>
+
+        <?php if(isset($_SESSION['authorized'])): ?>
         <section id="three" class="wrapper style3 special">
             <div class="table-wrapper">
                 <form action="add.php" method="post">
@@ -165,31 +121,44 @@ include("db.php");
                 </form>
             </div>
         </section>
+        <?php endif; ?>
     </div>
-    <?php } ?>
     <?php
     include("footer.php");
     ?>
 </body>
 </html>
 <script>
-    $(document).ready(function)({
-        $('#sacensibas').Tableedit(
 
-            {
-            url: 'action.php',
-            columns:
-            {
-                identifier: [0, "sacID"],
-                editable: [[1, "sacNosaukums"], [2, "sacDatums"], [3, "sacVieta"]]
-            }
+    <?php if(isset($_SESSION['authorized'])): ?>
+    $(document).ready(function(){
+        $('#sacensibas').Tabledit({
+            url:'action.php',
+            columns:{
+                identifier:[0, 'sacID'],
+                editable:[[1, "sacNosaukums"], [2, 'sacDatums'], [3, "sacVieta"]]
+            },
             restoreButton: false,
-            onSuccess:function(data, textStatus, jqXHR){
-                if(data.action == "delete")
+            onSuccess:function(data, textStatus, jqXHR)
+            {
+                if(data.action === 'delete')
                 {
                     $('#'+data.id).remove();
                 }
+            },
+            onFail: function(jqXHR, textStatus, errorThrown) {
+                console.log('onFail(jqXHR, textStatus, errorThrown)');
+                console.log(jqXHR);
+                console.log(textStatus);
+                console.log(errorThrown);
+            },
+            onAjax: function(action, serialize) {
+                console.log('onAjax(action, serialize)');
+                console.log(action);
+                console.log(serialize);
             }
         });
+
     });
+    <?php endif; ?>
 </script>

@@ -42,15 +42,24 @@ include("db.php");
             <p>Lūdzu ievadiet informāciju:</p>
         </header>
         <form action="addReg.php" method="post">
-            <table>
+            <table style="margin-bottom: 0px">
                 <tr>
                     <td style="width:200px">Sacensiba:</td>
                     <td>
                         <select name="event" id="event">
                             <?php
+
                             $sacList = $db->query("SELECT * FROM sacensibas ORDER BY sacDatums DESC");
                             while ($row = mysqli_fetch_array($sacList)) {
-                                echo "<option value='" . $row['sacID'] . "'>" . $row['sacNosaukums'] . ' | ' . $row['sacDatums'] . ' | ' . $row['sacVieta'] . "</option>";
+
+
+                                $closeDate = date_create($row['sacDatums']);
+
+//                                echo '<script>alert(\''.$closeDate->format('Y-m-d H:i:s').'\')</script>>';
+                                date_sub($closeDate,date_interval_create_from_date_string("1 days"));
+                                $closeDate->setTime(23, 59);
+
+                                echo "<option value='" . $row['sacID'] . "'>" . $row['sacNosaukums'] . " | " . $row['sacDatums'] . " | " . $row['sacVieta'] ."  (Reģistrācija beidzas: ".$closeDate->format('Y-m-d H:i:s').")</option>";
                             }
                             if (!isset($_SESSION['form_sacID']))
                                 echo "<option value=\"\" selected disabled hidden>Izveleties...</option>";
@@ -91,15 +100,24 @@ include("db.php");
                         </script>
                     </td>
                 </tr>
-                <tr>
-                    <td>
+            </table>
+<!--                <tr>-->
+<!--                    <td>-->
+            <div style="padding:20px 20px 20px 20px">
                         <input type="submit" value="Get Pair" name="getPairs">
-                    </td>
-                </tr>
+            </div>
+<!--                    </td>-->
+<!--                </tr>-->
+            <style>
+                #dp td {
+                    padding: 0px 0px 0px 0px;
+                }
+            </style>
+            <table>
                 <tr>
                     <td style="width:200px">Deju paris:</td>
                     <td>
-                        <table style="text-align: left">
+                        <table id="dp" style="text-align: left; font-size:10pt">
                             <tr>
                                 <td style="width:400px">
                                     Deju para ID:

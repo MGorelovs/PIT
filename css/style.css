@@ -224,6 +224,7 @@
 	input[type="text"],
 	input[type="password"],
 	input[type="email"],
+	input[type="date"],
 	select,
 	textarea {
 		-moz-appearance: none;
@@ -243,6 +244,7 @@
 	}
 
 		input[type="text"]:invalid,
+		input[type="date"]:invalid,
 		input[type="password"]:invalid,
 		input[type="email"]:invalid,
 		select:invalid,
@@ -251,6 +253,7 @@
 		}
 
 		input[type="text"]:focus,
+		input[type="date"]:focus,
 		input[type="password"]:focus,
 		input[type="email"]:focus,
 		select:focus,
@@ -293,6 +296,7 @@
 		}
 
 	input[type="text"],
+	input[type="date"],
 	input[type="password"],
 	input[type="email"],
 	select {
@@ -1115,6 +1119,7 @@
 			}
 
 			.wrapper.style3 input[type="text"],
+			.wrapper.style3 input[type="date"],
 			.wrapper.style3 input[type="password"],
 			.wrapper.style3 input[type="email"],
 			.wrapper.style3 select,

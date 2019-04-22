@@ -1,0 +1,22 @@
+Vecuma grupas:
+Bērni 1 (2010 un jaunāki)
+Bērni 2 (2008-2009)
+Juniori 1 (2006-2007)
+Juniori 2 (2004-2005)
+Jaunieši (2001-2003)
+U21 (1999-2003)
+Pieaugušie (2000 un vecāki)
+
+Deju klases и какие танцы исполняют:
+Iesācēji 1 (W, CH)
+Iesācēji 2 (W, CH, J)
+Iesācēji 3 (W, Q, CH, J)
+E4 (W, Q, CH, J)
+E6 (W, VW, Q, CH, R, J)
+D (W, T, VW, Q, S, CH, R, J)
+
+Начиная с C класса и дальше, могло бы быть разделение на разные классы. Но мы этого делать, конечно же, не будем :)
+C (W, T, VW, SF, Q, S, CH, R, PD, J)
+B (W, T, VW, SF, Q, S, CH, R, PD, J)
+A (W, T, VW, SF, Q, S, CH, R, PD, J)
+S (W, T, VW, SF, Q, S, CH, R, PD, J)

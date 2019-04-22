@@ -42,6 +42,7 @@ include("db.php");
             <p>Lūdzu ievadiet informāciju:</p>
         </header>
         <form action="addReg.php" method="post">
+
             <table style="margin-bottom: 0px">
                 <tr>
                     <td style="width:200px">Sacensiba:</td>
@@ -317,9 +318,53 @@ include("db.php");
                         </table>
                     </td>
                 </tr>
+                <tr>
+                    <td>Grupas:</td>
+                    <td>
+                        <style>
+                            #gr th {text-align: center};
+                            #gr tr {height: 20px};
 
+                            #test {width:25px; height: 25px};
+
+                        </style>
+                        <table id="gr">
+                            <tr>
+                                <th>Check</th>
+                                <th>grID</th>
+                                <th>grVecumaGrupa</th>
+                                <th>grKlase</th>
+                                <th>fk_sacID</th>
+                            </tr>
+
+                            <?php
+                            $grList = $db->query("SELECT * FROM sacensibu_grupas WHERE fk_sacID=".$_SESSION['form_sacID']);
+                            while ($row = mysqli_fetch_array($grList)) {
+                                echo "<tr>
+                                        <td>".
+                                    "<input type='checkbox' id='test'>"
+                                    ."</td>
+                                        <td>".
+                                    $row['grID']
+                                    ."</td>
+                                    <td>".
+                                    $row['grVecumaGrupa']
+                                    ."</td>
+                                    <td>".
+                                    $row['grKlase']
+                                    ."</td>
+                                    <td>".
+                                    $row['fk_sacID']
+                                    ."</td>
+
+                                    </tr>";
+                             }
+                            ?>
+                        </table>
+                    </td>
+                </tr>
             </table>
-
+            <input type="submit" value="Reģistret" name="reg">
 
         </form>
     </div>

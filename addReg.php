@@ -16,16 +16,10 @@ if ($_POST['getPairs'])
     {
         $_SESSION['form_dejparID']=$row['dejparID'];
         $_SESSION['form_dejparPartneraID'] = $row['dejparPartneraID'];
-        
-        
         $_SESSION['form_dejparPartneresID'] = $row['dejparPartneresID'];
-        
-        
         $_SESSION['form_dejparDibinasanasDatums'] = $row['dejparDibinasanasDatums'];
         $_SESSION['form_dejparLikvidacijasDatums'] = $row['dejparLikvidacijasDatums'];
-    
-        
-        
+
     }
 
     $query = $db ->query("SELECT * FROM dejotaji where dejotID = ".$_SESSION['form_dejparPartneraID']);
@@ -52,5 +46,9 @@ if ($_POST['getPairs'])
     
     
 header("Location: registracija.php");
+}
+else if ($_POST('reg'))
+{
+
 }
 

@@ -22,19 +22,21 @@
     $myrow = mysqli_fetch_array($result);
     if (empty($myrow['darbParole']))
         {
-            exit ("Ievadīts e-pasts vai parole ir nepareizs");
+            header("Location: login.php"."?error=wrongPassOrEmail");
+//            exit ("Ievadīts e-pasts vai parole ir nepareizs");
         }
     else {
         if ($myrow['darbParole'] == $password) {
             $_SESSION['email'] = $myrow['darbEpasts'];
             $_SESSION['id'] = $myrow['darbID'];
             $_SESSION['authorized'] = "Yes";
+            sleep(1); //Atbildes laiks uz autentifikācijas pieprasījumu nedrīkst būt mazāks par 1 (vienu) sekundi, lai novērstu brute force uzbrukuma iespējamību.
             header("Location: index.php");
             exit();
         }
         else {
-
-            exit ("Ievadīts e-pasts vai parole ir nepareizs\"");
+            header("Location: login.php"."?error=wrongPassOrEmail");
+//            exit ("Ievadīts e-pasts vai parole ir nepareizs\"");
         }
     }
 ?>

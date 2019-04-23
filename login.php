@@ -51,7 +51,7 @@ include("header.php");
                 }
             }
             else {
-                echo "<p style='color:red'>Bloķets!</p>";
+                echo "<p style='color:red'>Bloķets! </br> Lai atbloķētu profilu, ir jāvēršas pie sistēmas administratora.</p>";
             }
 
         }

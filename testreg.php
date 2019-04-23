@@ -20,23 +20,56 @@
 
     $result = $db->query("SELECT * FROM darbinieki WHERE darbEpasts='$email'");
     $myrow = mysqli_fetch_array($result);
-    if (empty($myrow['darbParole']))
+//    if (empty($myrow['darbParole']))
+//        {
+//            header("Location: login.php"."?error=wrongPassOrEmail");
+////            exit ("Ievadīts e-pasts vai parole ir nepareizs");
+//        }
+//    else {
+    echo $myrow['blocked'];
+        if ($myrow['blocked'] == true)
         {
-            header("Location: login.php"."?error=wrongPassOrEmail");
-//            exit ("Ievadīts e-pasts vai parole ir nepareizs");
+            sleep(1);
+            header("Location: login.php?error=blocked");
         }
-    else {
-        if ($myrow['darbParole'] == $password) {
+        else if ($myrow['darbParole'] == $password) {
             $_SESSION['email'] = $myrow['darbEpasts'];
             $_SESSION['id'] = $myrow['darbID'];
             $_SESSION['authorized'] = "Yes";
             sleep(1); //Atbildes laiks uz autentifikācijas pieprasījumu nedrīkst būt mazāks par 1 (vienu) sekundi, lai novērstu brute force uzbrukuma iespējamību.
+            $db -> query("UPDATE darbinieki set attempts = 0 where darbEpasts = $email");
             header("Location: index.php");
             exit();
         }
         else {
-            header("Location: login.php"."?error=wrongPassOrEmail");
+            $result = $db->query("SELECT * FROM darbinieki WHERE darbEpasts='$email'");
+            $row = mysqli_fetch_array($result);
+            if ($row == null)
+            {
+                header("Location: login.php"."?error=wrongPassOrEmail");
+            }
+            else if ($row['attempts'] == null || ($row['attempts']<2 && $row['attempts'] >=0))
+            {
+                $attempts = 0;
+                if($row['attempts'] != null)
+                {
+                    $attempts = $row['attempts'];
+                }
+
+                $attempts ++;
+//                echo $attempts;
+                $db -> query("UPDATE darbinieki set attempts = $attempts where darbEpasts = '$email'");
+                header("Location: login.php"."?error=wrongPassOrEmail&attempts=$attempts");
+            }
+            else {
+                $db -> query("UPDATE darbinieki set blocked = 1, attempts = 3 where darbEpasts = '$email'");
+
+                header("Location: login.php"."?error=blocked");
+            }
+
+            sleep(1);
+
 //            exit ("Ievadīts e-pasts vai parole ir nepareizs\"");
         }
-    }
+
 ?>

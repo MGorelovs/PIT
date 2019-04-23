@@ -38,8 +38,22 @@ include("header.php");
 
     <div id="login">
         <?php
-        if (isset($_GET['error']) && $_GET['error'] = 'wrongPassOrEmail'){
-            echo "<p style='color:red'>Ievadīts e-pasts vai parole ir nepareizs</p>";
+        if (isset($_GET['error'])){
+            if ($_GET['error'] == 'wrongPassOrEmail')
+            {
+                if (isset($_GET['attempts']))
+                {
+                    echo "<p style='color:red'>Ievadīts e-pasts vai parole ir nepareizs (".$_GET['attempts']."\\3 meģinajumi)</p>";
+                }
+                else
+                {
+                    echo "<p style='color:red'>Ievadīts e-pasts vai parole ir nepareizs </p>";
+                }
+            }
+            else {
+                echo "<p style='color:red'>Bloķets!</p>";
+            }
+
         }
 
         ?>

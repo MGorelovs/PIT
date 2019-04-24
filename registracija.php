@@ -221,34 +221,27 @@ include("db.php");
                         </style>
                         <table id="gr">
                             <tr>
-                                <th>Check</th>
-                                <th>grID</th>
-                                <th>grVecumaGrupa</th>
-                                <th>grKlase</th>
-                                <th>fk_sacID</th>
+                                <th></th>
+                                <th>Vecuma Grupa</th>
+                                <th>Klase</th>
                             </tr>
 
                             <?php
                             $grList = $db->query("SELECT * FROM sacensibu_grupas WHERE fk_sacID=".$_SESSION['form_sacID']);
                             while ($row = mysqli_fetch_array($grList)) {
                                 echo "<tr>
-                                        <td>".
-                                    "<input type='checkbox' id='test' name=\"form_group[]\" value=".$row['grID'].">"
-                                    ."</td>
-                                        <td>".
-                                    $row['grID']
-                                    ."</td>
-                                    <td>".
-                                    $row['grVecumaGrupa']
-                                    ."</td>
-                                    <td>".
-                                    $row['grKlase']
-                                    ."</td>
-                                    <td>".
-                                    $row['fk_sacID']
-                                    ."</td>
 
-                                    </tr>";
+                                        <td>".
+                                            "<input type='checkbox' id='test' name=\"form_group[]\" value=".$row['grID'].">"
+                                        ."</td>
+                                        <td>".
+                                            $row['grVecumaGrupa']
+                                        ."</td>
+                                        <td>".
+                                            $row['grKlase']
+                                        ."</td>
+
+                                </tr>";
                              }
                             ?>
                         </table>

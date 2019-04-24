@@ -145,51 +145,12 @@ include("db.php");
                             </tr>
                             <tr>
                                 <td >
-                                    Deju para Partnera Dzimsanas Datums:
-                                </td>
-                                <td>
-                                    <?php
-                                    if (isset($_SESSION['form_dejparPartneraDzimsanasDatums']))
-                                        echo $_SESSION['form_dejparPartneraDzimsanasDatums'];
-                                    else
-                                        echo "Izveleties..."
-                                    ?>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td >
                                     Deju para Partnera Vards Uzvards:
                                 </td>
                                 <td>
                                     <?php
                                     if (isset($_SESSION['form_dejparPartneraVardsUzvards']))
                                         echo $_SESSION['form_dejparPartneraVardsUzvards'];
-                                    else
-                                        echo "Izveleties..."
-                                    ?>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td >
-                                    Deju para Partnera dzimums:
-                                </td>
-                                <td>
-                                    <?php
-                                    if (isset($_SESSION['form_dejparPartneraDzimums']))
-                                        echo $_SESSION['form_dejparPartneraDzimums'];
-                                    else
-                                        echo "Izveleties..."
-                                    ?>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td >
-                                    Deju para Partnera vecuma grupa:
-                                </td>
-                                <td>
-                                    <?php
-                                    if (isset($_SESSION['form_dejparPartneraVecumaGrupa']))
-                                        echo $_SESSION['form_dejparPartneraVecumaGrupa'];
                                     else
                                         echo "Izveleties..."
                                     ?>
@@ -224,19 +185,6 @@ include("db.php");
                             </tr>
                             <tr>
                                 <td >
-                                    Deju para Partneres Dzimsanas Datums:
-                                </td>
-                                <td>
-                                    <?php
-                                    if (isset($_SESSION['form_dejparPartneresDzimsanasDatums']))
-                                        echo $_SESSION['form_dejparPartneresDzimsanasDatums'];
-                                    else
-                                        echo "Izveleties..."
-                                    ?>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td >
                                     Deju para Partneres Vards Uzvards:
                                 </td>
                                 <td>
@@ -250,64 +198,12 @@ include("db.php");
                             </tr>
                             <tr>
                                 <td >
-                                    Deju para Partneres dzimums:
-                                </td>
-                                <td>
-                                    <?php
-                                    if (isset($_SESSION['form_dejparPartneresDzimums']))
-                                        echo $_SESSION['form_dejparPartneresDzimums'];
-                                    else
-                                        echo "Izveleties..."
-                                    ?>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td >
-                                    Deju para Partneres vecuma grupa:
-                                </td>
-                                <td>
-                                    <?php
-                                    if (isset($_SESSION['form_dejparPartneresVecumaGrupa']))
-                                        echo $_SESSION['form_dejparPartneresVecumaGrupa'];
-                                    else
-                                        echo "Izveleties..."
-                                    ?>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td >
                                     Deju para Partneres klase:
                                 </td>
                                 <td>
                                     <?php
                                     if (isset($_SESSION['form_dejparPartneresKlase']))
                                         echo $_SESSION['form_dejparPartneresKlase'];
-                                    else
-                                        echo "Izveleties..."
-                                    ?>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    Deju para Dibinasanas Datums:
-                                </td>
-                                <td>
-                                    <?php
-                                    if (isset($_SESSION['form_dejparDibinasanasDatums']))
-                                        echo $_SESSION['form_dejparDibinasanasDatums'];
-                                    else
-                                        echo "Izveleties..."
-                                    ?>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    Deju para Likvidacijas Datums:
-                                </td>
-                                <td>
-                                    <?php
-                                    if (isset($_SESSION['form_dejparLikvidacijasDatums']))
-                                        echo $_SESSION['form_dejparLikvidacijasDatums'];
                                     else
                                         echo "Izveleties..."
                                     ?>

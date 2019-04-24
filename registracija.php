@@ -203,19 +203,6 @@ include("db.php");
                                     ?>
                                 </td>
                             </tr>
-                            <tr>
-                                <td >
-                                    Partneres klase:
-                                </td>
-                                <td>
-                                    <?php
-                                    if (isset($_SESSION['form_dejparPartneresKlase']))
-                                        echo $_SESSION['form_dejparPartneresKlase'];
-                                    else
-                                        echo "Izveleties..."
-                                    ?>
-                                </td>
-                            </tr>
                         </table>
                     </td>
                 </tr>

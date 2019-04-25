@@ -15,28 +15,24 @@
 
     $email = trim($email);
     $password = trim($password);
+    sleep(1); //Atbildes laiks uz autentifikācijas pieprasījumu nedrīkst būt mazāks par 1 (vienu) sekundi, lai novērstu brute force uzbrukuma iespējamību.
 
-    include("db.php");
+
+include("db.php");
 
     $result = $db->query("SELECT * FROM darbinieki WHERE darbEpasts='$email'");
     $myrow = mysqli_fetch_array($result);
-//    if (empty($myrow['darbParole']))
-//        {
-//            header("Location: login.php"."?error=wrongPassOrEmail");
-////            exit ("Ievadīts e-pasts vai parole ir nepareizs");
-//        }
-//    else {
+
+
     echo $myrow['blocked'];
         if ($myrow['blocked'] == true)
         {
-            sleep(1);
             header("Location: login.php?error=blocked");
         }
         else if ($myrow['darbParole'] == $password) {
             $_SESSION['email'] = $myrow['darbEpasts'];
             $_SESSION['id'] = $myrow['darbID'];
             $_SESSION['authorized'] = "Yes";
-            sleep(1); //Atbildes laiks uz autentifikācijas pieprasījumu nedrīkst būt mazāks par 1 (vienu) sekundi, lai novērstu brute force uzbrukuma iespējamību.
             $db -> query("UPDATE darbinieki set attempts = 0 where darbEpasts ='".$myrow['darbEpasts']."';");
             $db->close();
             header("Location: index.php");
@@ -68,9 +64,7 @@
                 header("Location: login.php"."?error=blocked");
             }
 
-            sleep(1);
 
-//            exit ("Ievadīts e-pasts vai parole ir nepareizs\"");
         }
 
 ?>

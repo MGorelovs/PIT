@@ -115,7 +115,9 @@ include("db.php");
 <!--                <tr>-->
 <!--                    <td>-->
             <div style="padding:20px 20px 20px 20px">
+
                         <input type="submit" value="Turpināt" name="getPairs">
+
             </div>
 <!--                    </td>-->
 <!--                </tr>-->

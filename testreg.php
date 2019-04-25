@@ -37,7 +37,8 @@
             $_SESSION['id'] = $myrow['darbID'];
             $_SESSION['authorized'] = "Yes";
             sleep(1); //Atbildes laiks uz autentifikācijas pieprasījumu nedrīkst būt mazāks par 1 (vienu) sekundi, lai novērstu brute force uzbrukuma iespējamību.
-            $db -> query("UPDATE darbinieki set attempts = 0 where darbEpasts = $email");
+            $db -> query("UPDATE darbinieki set attempts = 0 where darbEpasts ='".$myrow['darbEpasts']."';");
+            $db->close();
             header("Location: index.php");
             exit();
         }

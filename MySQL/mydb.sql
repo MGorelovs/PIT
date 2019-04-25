@@ -78,24 +78,29 @@ CREATE TABLE deju_pari
   FOREIGN KEY (dejparPartneresID) references dejotaji (dejotID)
 )DEFAULT CHAR SET = 'utf8';
 
-CREATE TABLE pieteikumi
-(
-  pietID      int unsigned unique not null primary key auto_increment,
-  pietKlase   varchar(10) not null,
-  fk_sacID    int unsigned not null,
-  fk_dejparID int unsigned not null,
-  fk_grID     int unsigned not null,
-  parbaudits  boolean,
-  FOREIGN KEY (fk_sacID) REFERENCES sacensibas (sacID) ON DELETE CASCADE,
-  FOREIGN KEY (fk_dejparID) REFERENCES deju_pari (dejparID) ON DELETE CASCADE,
-  FOREIGN KEY (fk_grID) REFERENCES sacensibu_grupas (grID) ON DELETE CASCADE
-)DEFAULT CHAR SET = 'utf8';
+#CREATE TABLE pieteikumi
+#(
+#  pietID      int unsigned unique not null primary key auto_increment,
+#  pietKlase   varchar(10) not null,
+#  fk_sacID    int unsigned not null,
+#  fk_dejparID int unsigned not null,
+#  fk_grID     int unsigned not null,
+#  parbaudits  boolean,
+#  FOREIGN KEY (fk_sacID) REFERENCES sacensibas (sacID) ON DELETE CASCADE,
+#  FOREIGN KEY (fk_dejparID) REFERENCES deju_pari (dejparID) ON DELETE CASCADE,
+#  FOREIGN KEY (fk_grID) REFERENCES sacensibu_grupas (grID) ON DELETE CASCADE
+#)DEFAULT CHAR SET = 'utf8';
 
 CREATE TABLE registretie_pari
 (
   regID     int unsigned unique not null primary key auto_increment,
-  fk_pietID int unsigned unique not null,
-  FOREIGN KEY (fk_pietID) REFERENCES pieteikumi (pietID)
+#  pietKlase   varchar(10) not null,
+  fk_sacID    int unsigned not null,
+  fk_dejparID int unsigned not null,
+  fk_grID     int unsigned not null,
+  FOREIGN KEY (fk_sacID) REFERENCES sacensibas (sacID) ON DELETE CASCADE,
+  FOREIGN KEY (fk_dejparID) REFERENCES deju_pari (dejparID) ON DELETE CASCADE,
+  FOREIGN KEY (fk_grID) REFERENCES sacensibu_grupas (grID) ON DELETE CASCADE
 )DEFAULT CHAR SET = 'utf8';
 
 CREATE TABLE deju_gajieni

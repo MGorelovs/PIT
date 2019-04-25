@@ -1,7 +1,19 @@
 <?php
+//TODO Найти способ сделать так, чтоб при перезагрузке страницы отображалось Izvēlēties... и т.п., но при нажатии Turpināt данные оставались выбранными
 if (session_status() == PHP_SESSION_NONE) {
     session_start();
 }
+unset($_SESSION['form_sacID']);
+unset($_SESSION['form_dejotID']);
+unset($_SESSION['form_grID_array']);
+unset($_SESSION['form_dejparID']);
+unset($_SESSION['form_dejparPartneraID']);
+unset($_SESSION['form_dejparPartneresID']);
+unset($_SESSION['form_dejparPartneraVardsUzvards']);
+unset($_SESSION['form_dejparPartneraVecumaGrupa']);
+unset($_SESSION['form_dejparPartneraKlase']);
+unset($_SESSION['form_dejparPartneresVardsUzvards']);
+unset($_SESSION['form_dejparPartneresVecumaGrupa']);
 ?>
 
 <!DOCTYPE html>
@@ -58,7 +70,7 @@ include("db.php");
                                 date_sub($closeDate,date_interval_create_from_date_string("1 days"));
                                 $closeDate->setTime(23, 59);
 
-                                echo "<option value='" . $row['sacID'] . "'>" . $row['sacNosaukums'] . " | " . $row['sacDatums'] . " | " . $row['sacVieta'] ."  (Reģistrācija beidzas: ".$closeDate->format('Y-m-d H:i:s').")</option>";
+                                echo "<option value='" . $row['sacID'] . "'>" . $row['sacNosaukums'] . " | " . $row['sacDatums'] . " | " . $row['sacVieta'] ."  (Reģistrācija beigsies: ".$closeDate->format('Y-m-d H:i:s').")</option>";
                             }
                             if (!isset($_SESSION['form_sacID']))
                                 echo "<option value=\"\" selected disabled hidden>Izveleties...</option>";
@@ -244,8 +256,7 @@ include("db.php");
                     </td>
                 </tr>
             </table>
-            <input type="submit" value="Reģistrēt" name="reg">
-
+            <input id="register" type="submit" value="Reģistrēt" name="reg">
         </form>
     </div>
 </section>

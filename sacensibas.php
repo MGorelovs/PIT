@@ -130,6 +130,7 @@ include ("header.php");
 </body>
 </html>
 <script>
+    <?php if(isset($_SESSION['authorized'])): ?>
 
     $(document).ready(function(){
         $('#sacensibas').Tabledit({
@@ -177,5 +178,5 @@ include ("header.php");
         });
 
     });
-
+    <?php endif; ?>
 </script>

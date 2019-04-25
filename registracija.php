@@ -43,7 +43,7 @@ include("db.php");
 
             <table style="margin-bottom: 0px">
                 <tr>
-                    <td style="width:200px">Sacensiba:</td>
+                    <td style="width:200px">Sacensības:</td>
                     <td>
                         <select name="event" id="event">
                             <?php
@@ -69,7 +69,7 @@ include("db.php");
                     </td>
                 </tr>
                 <tr>
-                    <td style="width:200px">Dejotajs:</td>
+                    <td style="width:200px">Dejotājs:</td>
                     <td>
                         <select name="dancer" id="dancer">
                             <?php
@@ -103,7 +103,9 @@ include("db.php");
 <!--                <tr>-->
 <!--                    <td>-->
             <div style="padding:20px 20px 20px 20px">
-                        <input type="submit" value="Meklēt" name="getPairs">
+
+                        <input type="submit" value="Turpināt" name="getPairs">
+
             </div>
 <!--                    </td>-->
 <!--                </tr>-->
@@ -114,12 +116,13 @@ include("db.php");
             </style>
             <table>
                 <tr>
-                    <td style="width:200px">Deju paris:</td>
+                    <td style="width:200px">Deju pāris:</td>
                     <td>
                         <table id="dp" style="text-align: left; font-size:10pt">
+
                             <tr>
                                 <td style="width:400px">
-                                    Deju para ID:
+                                    Deju pāra ID:
                                 </td>
                                 <td>
                                     <?php
@@ -130,74 +133,10 @@ include("db.php");
                                     ?>
                                 </td>
                             </tr>
-                            <tr> <!--Partnera-->
-                                <td>
-                                    Deju para Partnera ID:
-                                </td>
-                                <td>
-                                    <?php
-                                    if (isset($_SESSION['form_dejparPartneraID']))
-                                        echo $_SESSION['form_dejparPartneraID'];
-                                    else
-                                        echo "Izveleties..."
-                                    ?>
-                                </td>
-                            </tr>
+
                             <tr>
                                 <td >
-                                    Deju para Partnera Dzimsanas Datums:
-                                </td>
-                                <td>
-                                    <?php
-                                    if (isset($_SESSION['form_dejparPartneraDzimsanasDatums']))
-                                        echo $_SESSION['form_dejparPartneraDzimsanasDatums'];
-                                    else
-                                        echo "Izveleties..."
-                                    ?>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td >
-                                    Deju para Partnera Vards Uzvards:
-                                </td>
-                                <td>
-                                    <?php
-                                    if (isset($_SESSION['form_dejparPartneraVardsUzvards']))
-                                        echo $_SESSION['form_dejparPartneraVardsUzvards'];
-                                    else
-                                        echo "Izveleties..."
-                                    ?>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td >
-                                    Deju para Partnera dzimums:
-                                </td>
-                                <td>
-                                    <?php
-                                    if (isset($_SESSION['form_dejparPartneraDzimums']))
-                                        echo $_SESSION['form_dejparPartneraDzimums'];
-                                    else
-                                        echo "Izveleties..."
-                                    ?>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td >
-                                    Deju para Partnera vecuma grupa:
-                                </td>
-                                <td>
-                                    <?php
-                                    if (isset($_SESSION['form_dejparPartneraVecumaGrupa']))
-                                        echo $_SESSION['form_dejparPartneraVecumaGrupa'];
-                                    else
-                                        echo "Izveleties..."
-                                    ?>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td >
-                                    Deju para Partnera klase:
+                                    Deju para klase:
                                 </td>
                                 <td>
                                     <?php
@@ -209,9 +148,39 @@ include("db.php");
                                 </td>
                             </tr>
 
-                            <tr> <!--Partneres-->
+                            <!--Partnera-->
+                            <tr>
                                 <td>
-                                    Deju para Partneres ID:
+                                    Partnera ID:
+                                </td>
+                                <td>
+                                    <?php
+                                    if (isset($_SESSION['form_dejparPartneraID']))
+                                        echo $_SESSION['form_dejparPartneraID'];
+                                    else
+                                        echo "Izveleties..."
+                                    ?>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td >
+                                    Partnera Vārds Uzvārds:
+                                </td>
+                                <td>
+                                    <?php
+                                    if (isset($_SESSION['form_dejparPartneraVardsUzvards']))
+                                        echo $_SESSION['form_dejparPartneraVardsUzvards'];
+                                    else
+                                        echo "Izveleties..."
+                                    ?>
+                                </td>
+                            </tr>
+
+                            <!--Partneres-->
+                            <tr>
+                                <td>
+                                    Partneres ID:
                                 </td>
                                 <td>
                                     <?php
@@ -222,92 +191,15 @@ include("db.php");
                                     ?>
                                 </td>
                             </tr>
+
                             <tr>
                                 <td >
-                                    Deju para Partneres Dzimsanas Datums:
-                                </td>
-                                <td>
-                                    <?php
-                                    if (isset($_SESSION['form_dejparPartneresDzimsanasDatums']))
-                                        echo $_SESSION['form_dejparPartneresDzimsanasDatums'];
-                                    else
-                                        echo "Izveleties..."
-                                    ?>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td >
-                                    Deju para Partneres Vards Uzvards:
+                                    Partneres Vārds Uzvārds:
                                 </td>
                                 <td>
                                     <?php
                                     if (isset($_SESSION['form_dejparPartneresVardsUzvards']))
                                         echo $_SESSION['form_dejparPartneresVardsUzvards'];
-                                    else
-                                        echo "Izveleties..."
-                                    ?>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td >
-                                    Deju para Partneres dzimums:
-                                </td>
-                                <td>
-                                    <?php
-                                    if (isset($_SESSION['form_dejparPartneresDzimums']))
-                                        echo $_SESSION['form_dejparPartneresDzimums'];
-                                    else
-                                        echo "Izveleties..."
-                                    ?>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td >
-                                    Deju para Partneres vecuma grupa:
-                                </td>
-                                <td>
-                                    <?php
-                                    if (isset($_SESSION['form_dejparPartneresVecumaGrupa']))
-                                        echo $_SESSION['form_dejparPartneresVecumaGrupa'];
-                                    else
-                                        echo "Izveleties..."
-                                    ?>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td >
-                                    Deju para Partneres klase:
-                                </td>
-                                <td>
-                                    <?php
-                                    if (isset($_SESSION['form_dejparPartneresKlase']))
-                                        echo $_SESSION['form_dejparPartneresKlase'];
-                                    else
-                                        echo "Izveleties..."
-                                    ?>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    Deju para Dibinasanas Datums:
-                                </td>
-                                <td>
-                                    <?php
-                                    if (isset($_SESSION['form_dejparDibinasanasDatums']))
-                                        echo $_SESSION['form_dejparDibinasanasDatums'];
-                                    else
-                                        echo "Izveleties..."
-                                    ?>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    Deju para Likvidacijas Datums:
-                                </td>
-                                <td>
-                                    <?php
-                                    if (isset($_SESSION['form_dejparLikvidacijasDatums']))
-                                        echo $_SESSION['form_dejparLikvidacijasDatums'];
                                     else
                                         echo "Izveleties..."
                                     ?>
@@ -325,41 +217,34 @@ include("db.php");
                         </style>
                         <table id="gr">
                             <tr>
-                                <th>Check</th>
-                                <th>grID</th>
-                                <th>grVecumaGrupa</th>
-                                <th>grKlase</th>
-                                <th>fk_sacID</th>
+                                <th></th>
+                                <th>Vecuma Grupa</th>
+                                <th>Klase</th>
                             </tr>
 
                             <?php
                             $grList = $db->query("SELECT * FROM sacensibu_grupas WHERE fk_sacID=".$_SESSION['form_sacID']);
                             while ($row = mysqli_fetch_array($grList)) {
                                 echo "<tr>
-                                        <td>".
-                                    "<input type='checkbox' id='test' name=\"form_group[]\" value=".$row['grID'].">"
-                                    ."</td>
-                                        <td>".
-                                    $row['grID']
-                                    ."</td>
-                                    <td>".
-                                    $row['grVecumaGrupa']
-                                    ."</td>
-                                    <td>".
-                                    $row['grKlase']
-                                    ."</td>
-                                    <td>".
-                                    $row['fk_sacID']
-                                    ."</td>
 
-                                    </tr>";
+                                        <td>".
+                                            "<input type='checkbox' id='test' name=\"form_group[]\" value=".$row['grID'].">"
+                                        ."</td>
+                                        <td>".
+                                            $row['grVecumaGrupa']
+                                        ."</td>
+                                        <td>".
+                                            $row['grKlase']
+                                        ."</td>
+
+                                </tr>";
                              }
                             ?>
                         </table>
                     </td>
                 </tr>
             </table>
-            <input type="submit" value="Reģistret" name="reg">
+            <input type="submit" value="Reģistrēt" name="reg">
 
         </form>
     </div>

@@ -2,8 +2,9 @@
 if (session_status() == PHP_SESSION_NONE) {
     session_start();
 }
-
+//TODO сделать проверку на совпадение класса группы и класса пары
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">

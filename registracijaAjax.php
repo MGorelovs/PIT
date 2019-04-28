@@ -41,7 +41,7 @@ include("db.php");
     <div class="container">
 
 
-        <form action="addReg.php" method="post">
+        <form action="addRegAjax.php" method="post">
 
             <table style="margin-bottom: 0px">
                 <tr>
@@ -84,55 +84,26 @@ include("db.php");
                                 echo "<script> document.getElementById('dancer').value = '" . $_SESSION['form_dejotID'] . "'</script>";
                             ?>
                         </select>
-                        <input type="hidden" id="dejotID" name="dejotID" value="BLANK">
-                        <script>
-
-                            document.getElementById('dancer').addEventListener('change', function () {
-                                var sel = document.getElementById('dancer');
-                                for (var i = 0, len = sel.options.length; i < len; i++) {
-                                    var opt = sel.options[i];
-                                    if (opt.selected === true) {
-                                        document.getElementById('dejotID').value = opt.value;
-                                        break;
-                                    }
-                                }
-                            })
-                        </script>
                     </td>
                 </tr>
             </table>
 
-            <div style="padding:20px 20px 20px 20px">
-
-                <input type="button" value="Turpināt" id="getInfo">
-
-            </div>
-
             <script>
-                document.getElementById("getInfo").addEventListener("click", getInfo)
+                document.getElementById("dancer").addEventListener("change", getPair)
+                document.getElementById("event").addEventListener("change", getComp)
 
-                function getInfo() {
+                function getPair() {
 
-                    var comp = document.getElementById("event").value;
+                    document.getElementById("placeholder1").hidden = true;
+                    document.getElementById("dp").hidden = false;
+
                     var dancer = document.getElementById("dancer").value;
+                    var xhr = new XMLHttpRequest();
+                    xhr.open('POST', 'addRegAjax.php', true)
+                    xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+                    var param = "dancer=" + dancer;
 
-                    var xhr1 = new XMLHttpRequest();
-                    xhr1.open('POST', 'addRegAjax.php', true)
-                    xhr1.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-                    var param1 = "comp=" + comp;
-
-                    xhr1.onload = function () {
-
-                    };
-
-                    xhr1.send(param1);
-
-                    var xhr2 = new XMLHttpRequest();
-                    xhr2.open('POST', 'addRegAjax.php', true)
-                    xhr2.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-                    var param2 = "dancer=" + comp;
-
-                    xhr2.onload = function () {
+                    xhr.onload = function () {
                         if (this.status == 200) {
                             var resp = JSON.parse(this.responseText);
 
@@ -141,18 +112,53 @@ include("db.php");
                             var dejparPartneresID = resp[0].prtneresID;
                             var dejparPartneraVardsUzvards = resp[0].prtneraVardsUzvards;
                             var dejparPartneresVardsUzvards = resp[0].prtneresVardsUzvards;
+                            var dejparPartneraKlase = resp[0].prtneraKlase;
+                            var dejparPartneresKlase = resp[0].prtneresKlase;
 
                             document.getElementById("dejparID").innerHTML = dejparID;
                             document.getElementById("prtneraID").innerHTML = dejparPartneraID;
                             document.getElementById("prtneresID").innerHTML = dejparPartneresID;
                             document.getElementById("prtneraVardsUzvards").innerHTML = dejparPartneraVardsUzvards;
                             document.getElementById("prtneresVardsUzvards").innerHTML = dejparPartneresVardsUzvards;
+                            document.getElementById("dejparClass").innerHTML = "</br>Partnera: " + dejparPartneraKlase + "</br>Partneres: " + dejparPartneresKlase;
                         }
-
-
                     };
+                    xhr.send(param);
+                }
 
-                    xhr2.send(param2);
+                function getComp() {
+
+                    document.getElementById("placeholder2").hidden = true;
+                    document.getElementById("gr").hidden = false;
+
+                    var comp = document.getElementById("event").value;
+                    var xhr = new XMLHttpRequest();
+                    xhr.open('POST', 'addRegAjax.php', true)
+                    xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+                    var param = "comp=" + comp;
+
+                    xhr.onload = function () {
+                        if (this.status == 200) {
+
+                            var resp = JSON.parse(this.responseText);
+
+                            for (let i of resp) {
+                                document.getElementById("gr").innerHTML +=
+                                    "<tr>" +
+                                    "<td>" +
+                                    "<input type=checkbox name=\"form_group[]\" value="+i['grID']+">" +
+                                    "</td>" +
+                                    "<td>" +
+                                    i['grVecumaGrupa'] +
+                                    "</td>" +
+                                    "<td>" +
+                                    i['grKlase'] +
+                                    "</td>" +
+                                    "</tr>"
+                            }
+                        }
+                    };
+                    xhr.send(param);
 
 
                 }
@@ -166,18 +172,20 @@ include("db.php");
                     padding: 0px 0px 0px 0px;
                 }
             </style>
+
             <table>
                 <tr>
-                    <td style="width:200px">Deju pāris:</td>
+                    <td style="width:100px">Deju pāris:</td>
                     <td>
-                        <table id="dp" style="text-align: left; font-size:10pt">
+                        <div id="placeholder1">Jāizvelas vienu no dejotājiem...</div>
+                        <table hidden id="dp" style="text-align: left; font-size:10pt">
 
                             <tr>
                                 <td style="width:400px">
                                     Deju pāra ID:
                                 </td>
-                                <td id = "dejparID">
-
+                                <td id="dejparID">
+                                    ...
                                 </td>
                             </tr>
 
@@ -186,7 +194,7 @@ include("db.php");
                                     Deju para klase:
                                 </td>
                                 <td id="dejparClass">
-
+                                    ...
                                 </td>
                             </tr>
 
@@ -196,7 +204,7 @@ include("db.php");
                                     Partnera ID:
                                 </td>
                                 <td id="prtneraID">
-
+                                    ...
                                 </td>
                             </tr>
 
@@ -205,7 +213,7 @@ include("db.php");
                                     Partnera Vārds Uzvārds:
                                 </td>
                                 <td id="prtneraVardsUzvards">
-
+                                    ...
                                 </td>
                             </tr>
 
@@ -215,7 +223,7 @@ include("db.php");
                                     Partneres ID:
                                 </td>
                                 <td id="prtneresID">
-
+                                    ...
                                 </td>
                             </tr>
 
@@ -223,8 +231,8 @@ include("db.php");
                                 <td>
                                     Partneres Vārds Uzvārds:
                                 </td>
-                                <td id = "prtneresVardsUzvards">
-
+                                <td id="prtneresVardsUzvards">
+                                    ...
                                 </td>
                             </tr>
                         </table>
@@ -236,45 +244,38 @@ include("db.php");
                         <style>
                             #gr th {
                                 text-align: center
-                            }
-
-                            ;
+                            };
                             #gr tr {
                                 height: 20px
-                            }
-
-                            ;
+                            };
                         </style>
-                        <table id="gr">
+                        <div id="placeholder2">Jāizvelas vienu no sacensībam...</div>
+                        <table id="gr" hidden>
                             <tr>
-                                <th></th>
+                                <th style ="width:20px"></th>
                                 <th>Vecuma Grupa</th>
                                 <th>Klase</th>
                             </tr>
-
-                            <?php
-                            $grList = $db->query("SELECT * FROM sacensibu_grupas WHERE fk_sacID=" . $_SESSION['form_sacID']);
-                            while ($row = mysqli_fetch_array($grList)) {
-                                echo "<tr>
-
-                                        <td>" .
-                                    "<input type='checkbox' id='test' name=\"form_group[]\" value=" . $row['grID'] . ">"
-                                    . "</td>
-                                        <td>" .
-                                    $row['grVecumaGrupa']
-                                    . "</td>
-                                        <td>" .
-                                    $row['grKlase']
-                                    . "</td>
-
-                                </tr>";
-                            }
-                            ?>
                         </table>
                     </td>
                 </tr>
             </table>
-            <input id="register" type="submit" value="Reģistrēt" name="reg">
+            <input id="register" type="button" value="Reģistrēt" name="reg">
+
+            <script>
+                document.getElementById('register').addEventListener('click',function (){
+                    var grID_array = [];
+                    var checkboxes = document.querySelectorAll('input[type=checkbox]:checked')
+
+                    for (let i of checkboxes)
+                    {
+                        grID_array.push(i.value);
+                    }
+                })
+
+
+            </script>
+
         </form>
     </div>
 </section>

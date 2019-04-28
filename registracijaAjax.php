@@ -1,5 +1,4 @@
 <?php
-//TODO Найти способ сделать так, чтоб при перезагрузке страницы отображалось Izvēlēties... и т.п., но при нажатии Turpināt данные оставались выбранными
 if (session_status() == PHP_SESSION_NONE) {
     session_start();
 }
@@ -36,6 +35,14 @@ include("header.php");
 include("db.php");
 ?>
 
+<script>
+    var dancerChosen = false;
+    var compChosen = false;
+    var pairLoaded = false;
+    var groupsLoaded = false;
+</script>
+
+
 <!-- Two -->
 <section id="two" class="wrapper style2 special">
     <div class="container">
@@ -44,6 +51,23 @@ include("db.php");
         <form action="addRegAjax.php" method="post">
 
             <table style="margin-bottom: 0px">
+                <tr>
+                    <td style="width:200px">Dejotājs:</td>
+                    <td>
+                        <select name="dancer" id="dancer">
+                            <?php
+                            $dejList = $db->query("SELECT * FROM dejotaji ORDER BY dejotVardsUzvards ASC ");
+                            while ($row = mysqli_fetch_array($dejList)) {
+                                echo "<option value='" . $row['dejotID'] . "'>" . $row['dejotVardsUzvards'] . ' | ' . $row['dejotVecumaGrupa'] . ' | ' . $row['dejotKlase'] . "</option>";
+                            }
+                            if (!isset($_SESSION['form_dejotID']))
+                                echo "<option value=\"\" selected disabled hidden>Izveleties...</option>";
+                            else
+                                echo "<script> document.getElementById('dancer').value = '" . $_SESSION['form_dejotID'] . "'</script>";
+                            ?>
+                        </select>
+                    </td>
+                </tr>
                 <tr>
                     <td style="width:200px">Sacensības:</td>
                     <td>
@@ -69,23 +93,7 @@ include("db.php");
                         </select>
                     </td>
                 </tr>
-                <tr>
-                    <td style="width:200px">Dejotājs:</td>
-                    <td>
-                        <select name="dancer" id="dancer">
-                            <?php
-                            $dejList = $db->query("SELECT * FROM dejotaji ORDER BY dejotVardsUzvards ASC ");
-                            while ($row = mysqli_fetch_array($dejList)) {
-                                echo "<option value='" . $row['dejotID'] . "'>" . $row['dejotVardsUzvards'] . ' | ' . $row['dejotVecumaGrupa'] . ' | ' . $row['dejotKlase'] . "</option>";
-                            }
-                            if (!isset($_SESSION['form_dejotID']))
-                                echo "<option value=\"\" selected disabled hidden>Izveleties...</option>";
-                            else
-                                echo "<script> document.getElementById('dancer').value = '" . $_SESSION['form_dejotID'] . "'</script>";
-                            ?>
-                        </select>
-                    </td>
-                </tr>
+
             </table>
 
             <script>
@@ -93,6 +101,8 @@ include("db.php");
                 document.getElementById("event").addEventListener("change", getComp)
 
                 function getPair() {
+
+                    dancerChosen = true;
 
                     document.getElementById("placeholder1").hidden = true;
                     document.getElementById("dp").hidden = false;
@@ -127,6 +137,8 @@ include("db.php");
                 }
 
                 function getComp() {
+
+                    compChosen = true;
 
                     document.getElementById("placeholder2").hidden = true;
                     document.getElementById("gr").hidden = false;
@@ -260,17 +272,57 @@ include("db.php");
                     </td>
                 </tr>
             </table>
-            <input id="register" type="button" value="Reģistrēt" name="reg">
+            <input disabled id="register" type="button" value="Reģistrēt" name="reg">
 
             <script>
+
+                document.getElementById('dancer').addEventListener('change', enableButton);
+                document.getElementById('event').addEventListener('change', enableButton);
+
+                function enableButton() {
+                    if (compChosen && dancerChosen)
+                        document.getElementById('register').disabled = false;
+
+                }
+
+
                 document.getElementById('register').addEventListener('click',function (){
                     var grID_array = [];
                     var checkboxes = document.querySelectorAll('input[type=checkbox]:checked')
+
+                    if (checkboxes.length == 0) {
+                        alert("Nav izveleta grupa!");
+                        return
+                    }
 
                     for (let i of checkboxes)
                     {
                         grID_array.push(i.value);
                     }
+
+                    var xhr = new XMLHttpRequest();
+                    xhr.open('POST', 'addRegAjax.php', true)
+                    xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+
+                    var pair = document.getElementById('dejparID').innerHTML;
+                    var comp = document.getElementById('event').value;
+                    var groups = JSON.stringify(grID_array);
+
+
+                    var param = "r_pair=" + pair + "&" + "r_comp=" + comp + "&" + "r_groups=" + groups;
+
+                    xhr.onload = function () {
+                        if (this.status == 200) {
+                            alert("Reģistrēts!");
+                            alert(this.responseText);
+                        }
+                    };
+
+                    xhr.send(param);
+
+
+
+
                 })
 
 

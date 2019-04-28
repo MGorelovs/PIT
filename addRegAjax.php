@@ -32,5 +32,19 @@ WHERE dejotID=prtneresID;
     echo json_encode($dancepair);
 }
 
+if (isset($_POST['r_pair']) && isset($_POST['r_comp']) && isset($_POST['r_groups'])) {
+    $pair = $_POST['r_pair'];
+    $comp = $_POST['r_comp'];
+    $groups = json_decode($_POST['r_groups']);
+
+
+    foreach ($groups as $i) {
+        $db->query("INSERT INTO registretie_pari VALUES (null,$comp,$pair,$i)");
+    }
+    echo $db->error;
+
+
+}
+
 
 

@@ -1,8 +1,10 @@
+//TODO сделать проверку на совпадение класса группы и класса пары
+//TODO сделать проверку даты регистрации
+
 <?php
 if (session_status() == PHP_SESSION_NONE) {
     session_start();
 }
-//TODO сделать проверку на совпадение класса группы и класса пары
 ?>
 
 
@@ -296,8 +298,7 @@ include("db.php");
                         return
                     }
 
-                    for (let i of checkboxes)
-                    {
+                    for (let i of checkboxes) {
                         grID_array.push(i.value);
                     }
 
@@ -320,8 +321,6 @@ include("db.php");
                     };
 
                     xhr.send(param);
-
-
 
 
                 })

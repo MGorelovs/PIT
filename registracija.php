@@ -1,20 +1,12 @@
+//TODO сделать проверку на совпадение класса группы и класса пары
+//TODO сделать проверку даты регистрации
+
 <?php
-//TODO Найти способ сделать так, чтоб при перезагрузке страницы отображалось Izvēlēties... и т.п., но при нажатии Turpināt данные оставались выбранными
 if (session_status() == PHP_SESSION_NONE) {
     session_start();
 }
-unset($_SESSION['form_sacID']);
-unset($_SESSION['form_dejotID']);
-unset($_SESSION['form_grID_array']);
-unset($_SESSION['form_dejparID']);
-unset($_SESSION['form_dejparPartneraID']);
-unset($_SESSION['form_dejparPartneresID']);
-unset($_SESSION['form_dejparPartneraVardsUzvards']);
-unset($_SESSION['form_dejparPartneraVecumaGrupa']);
-unset($_SESSION['form_dejparPartneraKlase']);
-unset($_SESSION['form_dejparPartneresVardsUzvards']);
-unset($_SESSION['form_dejparPartneresVecumaGrupa']);
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -46,6 +38,14 @@ include("header.php");
 include("db.php");
 ?>
 
+<script>
+    var dancerChosen = false;
+    var compChosen = false;
+    var pairLoaded = false;
+    var groupsLoaded = false;
+</script>
+
+
 <!-- Two -->
 <section id="two" class="wrapper style2 special">
     <div class="container">
@@ -54,32 +54,6 @@ include("db.php");
         <form action="addReg.php" method="post">
 
             <table style="margin-bottom: 0px">
-                <tr>
-                    <td style="width:200px">Sacensības:</td>
-                    <td>
-                        <select name="event" id="event">
-                            <?php
-
-                            $sacList = $db->query("SELECT * FROM sacensibas ORDER BY sacDatums ASC");
-                            while ($row = mysqli_fetch_array($sacList)) {
-
-
-                                $closeDate = date_create($row['sacDatums']);
-
-//                                echo '<script>alert(\''.$closeDate->format('Y-m-d H:i:s').'\')</script>>';
-                                date_sub($closeDate,date_interval_create_from_date_string("1 days"));
-                                $closeDate->setTime(23, 59);
-
-                                echo "<option value='" . $row['sacID'] . "'>" . $row['sacNosaukums'] . " | " . $row['sacDatums'] . " | " . $row['sacVieta'] ."  (Reģistrācija beigsies: ".$closeDate->format('Y-m-d H:i:s').")</option>";
-                            }
-                            if (!isset($_SESSION['form_sacID']))
-                                echo "<option value=\"\" selected disabled hidden>Izveleties...</option>";
-                            else
-                                echo "<script> document.getElementById('event').value = '" . $_SESSION['form_sacID'] . "' </script>";
-                            ?>
-                        </select>
-                    </td>
-                </tr>
                 <tr>
                     <td style="width:200px">Dejotājs:</td>
                     <td>
@@ -95,68 +69,147 @@ include("db.php");
                                 echo "<script> document.getElementById('dancer').value = '" . $_SESSION['form_dejotID'] . "'</script>";
                             ?>
                         </select>
-                        <input type="hidden" id="dejotID" name="dejotID" value="BLANK">
-                        <script>
-
-                            document.getElementById('dancer').addEventListener('change', function () {
-                                var sel = document.getElementById('dancer');
-                                for (var i = 0, len = sel.options.length; i < len; i++) {
-                                    var opt = sel.options[i];
-                                    if (opt.selected === true) {
-                                        document.getElementById('dejotID').value = opt.value;
-                                        break;
-                                    }
-                                }
-                            })
-                        </script>
                     </td>
                 </tr>
+                <tr>
+                    <td style="width:200px">Sacensības:</td>
+                    <td>
+                        <select name="event" id="event">
+                            <?php
+
+                            $sacList = $db->query("SELECT * FROM sacensibas ORDER BY sacDatums ASC");
+                            while ($row = mysqli_fetch_array($sacList)) {
+
+                                $closeDate = date_create($row['sacDatums']);
+
+//                                echo '<script>alert(\''.$closeDate->format('Y-m-d H:i:s').'\')</script>>';
+                                date_sub($closeDate, date_interval_create_from_date_string("1 days"));
+                                $closeDate->setTime(23, 59);
+
+                                echo "<option value='" . $row['sacID'] . "'>" . $row['sacNosaukums'] . " | " . $row['sacDatums'] . " | " . $row['sacVieta'] . "  (Reģistrācija beigsies: " . $closeDate->format('Y-m-d H:i:s') . ")</option>";
+                            }
+                            if (!isset($_SESSION['form_sacID']))
+                                echo "<option value=\"\" selected disabled hidden>Izveleties...</option>";
+                            else
+                                echo "<script> document.getElementById('event').value = '" . $_SESSION['form_sacID'] . "' </script>";
+                            ?>
+                        </select>
+                    </td>
+                </tr>
+
             </table>
-<!--                <tr>-->
-<!--                    <td>-->
-            <div style="padding:20px 20px 20px 20px">
 
-                        <input type="submit" value="Turpināt" name="getPairs">
+            <script>
+                document.getElementById("dancer").addEventListener("change", getPair)
+                document.getElementById("event").addEventListener("change", getComp)
 
-            </div>
-<!--                    </td>-->
-<!--                </tr>-->
+                function getPair() {
+
+                    dancerChosen = true;
+
+                    document.getElementById("placeholder1").hidden = true;
+                    document.getElementById("dp").hidden = false;
+
+                    var dancer = document.getElementById("dancer").value;
+                    var xhr = new XMLHttpRequest();
+                    xhr.open('POST', 'addRegAjax.php', true)
+                    xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+                    var param = "dancer=" + dancer;
+
+                    xhr.onload = function () {
+                        if (this.status == 200) {
+                            var resp = JSON.parse(this.responseText);
+
+                            var dejparID = resp[0].dpID;
+                            var dejparPartneraID = resp[0].prtneraID;
+                            var dejparPartneresID = resp[0].prtneresID;
+                            var dejparPartneraVardsUzvards = resp[0].prtneraVardsUzvards;
+                            var dejparPartneresVardsUzvards = resp[0].prtneresVardsUzvards;
+                            var dejparPartneraKlase = resp[0].prtneraKlase;
+                            var dejparPartneresKlase = resp[0].prtneresKlase;
+
+                            document.getElementById("dejparID").innerHTML = dejparID;
+                            document.getElementById("prtneraID").innerHTML = dejparPartneraID;
+                            document.getElementById("prtneresID").innerHTML = dejparPartneresID;
+                            document.getElementById("prtneraVardsUzvards").innerHTML = dejparPartneraVardsUzvards;
+                            document.getElementById("prtneresVardsUzvards").innerHTML = dejparPartneresVardsUzvards;
+                            document.getElementById("dejparClass").innerHTML = "</br>Partnera: " + dejparPartneraKlase + "</br>Partneres: " + dejparPartneresKlase;
+                        }
+                    };
+                    xhr.send(param);
+                }
+
+                function getComp() {
+
+                    compChosen = true;
+
+                    document.getElementById("placeholder2").hidden = true;
+                    document.getElementById("gr").hidden = false;
+
+                    var comp = document.getElementById("event").value;
+                    var xhr = new XMLHttpRequest();
+                    xhr.open('POST', 'addRegAjax.php', true)
+                    xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+                    var param = "comp=" + comp;
+
+                    xhr.onload = function () {
+                        if (this.status == 200) {
+
+                            var resp = JSON.parse(this.responseText);
+
+                            for (let i of resp) {
+                                document.getElementById("gr").innerHTML +=
+                                    "<tr>" +
+                                    "<td>" +
+                                    "<input type=checkbox name=\"form_group[]\" value="+i['grID']+">" +
+                                    "</td>" +
+                                    "<td>" +
+                                    i['grVecumaGrupa'] +
+                                    "</td>" +
+                                    "<td>" +
+                                    i['grKlase'] +
+                                    "</td>" +
+                                    "</tr>"
+                            }
+                        }
+                    };
+                    xhr.send(param);
+
+
+                }
+
+
+            </script>
+
+
             <style>
                 #dp td {
                     padding: 0px 0px 0px 0px;
                 }
             </style>
+
             <table>
                 <tr>
-                    <td style="width:200px">Deju pāris:</td>
+                    <td style="width:100px">Deju pāris:</td>
                     <td>
-                        <table id="dp" style="text-align: left; font-size:10pt">
+                        <div id="placeholder1">Jāizvelas vienu no dejotājiem...</div>
+                        <table hidden id="dp" style="text-align: left; font-size:10pt">
 
                             <tr>
                                 <td style="width:400px">
                                     Deju pāra ID:
                                 </td>
-                                <td>
-                                    <?php
-                                    if (isset($_SESSION['form_dejparID']))
-                                        echo $_SESSION['form_dejparID'];
-                                    else
-                                        echo "Izveleties..."
-                                    ?>
+                                <td id="dejparID">
+                                    ...
                                 </td>
                             </tr>
 
                             <tr>
-                                <td >
+                                <td>
                                     Deju para klase:
                                 </td>
-                                <td>
-                                    <?php
-                                    if (isset($_SESSION['form_dejparPartneraKlase']))
-                                        echo $_SESSION['form_dejparPartneraKlase'];
-                                    else
-                                        echo "Izveleties..."
-                                    ?>
+                                <td id="dejparClass">
+                                    ...
                                 </td>
                             </tr>
 
@@ -165,27 +218,17 @@ include("db.php");
                                 <td>
                                     Partnera ID:
                                 </td>
-                                <td>
-                                    <?php
-                                    if (isset($_SESSION['form_dejparPartneraID']))
-                                        echo $_SESSION['form_dejparPartneraID'];
-                                    else
-                                        echo "Izveleties..."
-                                    ?>
+                                <td id="prtneraID">
+                                    ...
                                 </td>
                             </tr>
 
                             <tr>
-                                <td >
+                                <td>
                                     Partnera Vārds Uzvārds:
                                 </td>
-                                <td>
-                                    <?php
-                                    if (isset($_SESSION['form_dejparPartneraVardsUzvards']))
-                                        echo $_SESSION['form_dejparPartneraVardsUzvards'];
-                                    else
-                                        echo "Izveleties..."
-                                    ?>
+                                <td id="prtneraVardsUzvards">
+                                    ...
                                 </td>
                             </tr>
 
@@ -194,27 +237,17 @@ include("db.php");
                                 <td>
                                     Partneres ID:
                                 </td>
-                                <td>
-                                    <?php
-                                    if (isset($_SESSION['form_dejparPartneresID']))
-                                        echo $_SESSION['form_dejparPartneresID'];
-                                    else
-                                        echo "Izveleties..."
-                                    ?>
+                                <td id="prtneresID">
+                                    ...
                                 </td>
                             </tr>
 
                             <tr>
-                                <td >
+                                <td>
                                     Partneres Vārds Uzvārds:
                                 </td>
-                                <td>
-                                    <?php
-                                    if (isset($_SESSION['form_dejparPartneresVardsUzvards']))
-                                        echo $_SESSION['form_dejparPartneresVardsUzvards'];
-                                    else
-                                        echo "Izveleties..."
-                                    ?>
+                                <td id="prtneresVardsUzvards">
+                                    ...
                                 </td>
                             </tr>
                         </table>
@@ -224,39 +257,77 @@ include("db.php");
                     <td>Grupas:</td>
                     <td>
                         <style>
-                            #gr th {text-align: center};
-                            #gr tr {height: 20px};
+                            #gr th {
+                                text-align: center
+                            };
+                            #gr tr {
+                                height: 20px
+                            };
                         </style>
-                        <table id="gr">
+                        <div id="placeholder2">Jāizvelas vienu no sacensībam...</div>
+                        <table id="gr" hidden>
                             <tr>
-                                <th></th>
+                                <th style ="width:20px"></th>
                                 <th>Vecuma Grupa</th>
                                 <th>Klase</th>
                             </tr>
-
-                            <?php
-                            $grList = $db->query("SELECT * FROM sacensibu_grupas WHERE fk_sacID=".$_SESSION['form_sacID']);
-                            while ($row = mysqli_fetch_array($grList)) {
-                                echo "<tr>
-
-                                        <td>".
-                                            "<input type='checkbox' id='test' name=\"form_group[]\" value=".$row['grID'].">"
-                                        ."</td>
-                                        <td>".
-                                            $row['grVecumaGrupa']
-                                        ."</td>
-                                        <td>".
-                                            $row['grKlase']
-                                        ."</td>
-
-                                </tr>";
-                             }
-                            ?>
                         </table>
                     </td>
                 </tr>
             </table>
-            <input id="register" type="submit" value="Reģistrēt" name="reg">
+            <input disabled id="register" type="button" value="Reģistrēt" name="reg">
+
+            <script>
+
+                document.getElementById('dancer').addEventListener('change', enableButton);
+                document.getElementById('event').addEventListener('change', enableButton);
+
+                function enableButton() {
+                    if (compChosen && dancerChosen)
+                        document.getElementById('register').disabled = false;
+
+                }
+
+
+                document.getElementById('register').addEventListener('click',function (){
+                    var grID_array = [];
+                    var checkboxes = document.querySelectorAll('input[type=checkbox]:checked')
+
+                    if (checkboxes.length == 0) {
+                        alert("Nav izveleta grupa!");
+                        return
+                    }
+
+                    for (let i of checkboxes) {
+                        grID_array.push(i.value);
+                    }
+
+                    var xhr = new XMLHttpRequest();
+                    xhr.open('POST', 'addRegAjax.php', true)
+                    xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+
+                    var pair = document.getElementById('dejparID').innerHTML;
+                    var comp = document.getElementById('event').value;
+                    var groups = JSON.stringify(grID_array);
+
+
+                    var param = "r_pair=" + pair + "&" + "r_comp=" + comp + "&" + "r_groups=" + groups;
+
+                    xhr.onload = function () {
+                        if (this.status == 200) {
+                            alert("Reģistrēts!");
+                            alert(this.responseText);
+                        }
+                    };
+
+                    xhr.send(param);
+
+
+                })
+
+
+            </script>
+
         </form>
     </div>
 </section>

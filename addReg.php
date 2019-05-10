@@ -2,68 +2,49 @@
 if (session_status() == PHP_SESSION_NONE) {
     session_start();
 }
-include ("db.php");
-$eventID = $_POST['event'];
-$dancerID = $_POST['dancer'];
-$_SESSION['form_sacID'] = $eventID;
-$_SESSION['form_dejotID']= $dancerID;
-$_SESSION['form_grID_array'] = $_POST['form_group'];
+include("db.php");
+
+if (isset($_POST['comp'])) {
+    $comp = $_POST['comp'];
+    $query = "SELECT * FROM sacensibu_grupas WHERE fk_sacID = $comp";
+    $result = $db->query($query);
+    $comps = mysqli_fetch_all($result, MYSQLI_ASSOC);
+
+    echo json_encode($comps);
+}
+
+if (isset($_POST['dancer'])) {
+    $dancer = $_POST['dancer'];
+    $query = "
+    SELECT dpID,prtneraID,prtneraVardsUzvards,prtneraKlase,prtneresID,dejotVardsUzvards as prtneresVardsUzvards,dejotKlase as prtneresKlase  FROM
+(SELECT dpID,prtneraID,prtneresID,dejotVardsUzvards as prtneraVardsUzvards,dejotKlase as prtneraKlase
+FROM
+(SELECT dejparID as dpID,dejparPartneraID as prtneraID,dejparPartneresID as prtneresID
+from deju_pari
+WHERE deju_pari.dejparPartneraID = $dancer OR dejparPartneresID =$dancer) as dejparTable,
+dejotaji
+WHERE dejotID=prtneraID) as prtneraTable,
+dejotaji
+WHERE dejotID=prtneresID;
+        ";
+    $result = $db->query($query);
+    $dancepair = mysqli_fetch_all($result, MYSQLI_ASSOC);
+    echo json_encode($dancepair);
+}
+
+if (isset($_POST['r_pair']) && isset($_POST['r_comp']) && isset($_POST['r_groups'])) {
+    $pair = $_POST['r_pair'];
+    $comp = $_POST['r_comp'];
+    $groups = json_decode($_POST['r_groups']);
 
 
-echo 'sacensibas:</br>';
-echo $_SESSION['form_sacID'].'</br>';
-echo 'dejotaji:</br>';
-echo $_SESSION['form_dejotID'].'</br>';
-echo 'grupas:</br>';
-echo print_r($_SESSION['form_grID']);
-
-
-
-//echo print_r($_SESSION);
-
-if (isset($_POST['getPairs']))
-{
-    $query = $db ->query("SELECT * FROM deju_pari where dejparPartneraID = $dancerID OR dejparPartneresID = $dancerID");
-    
-    while($row = mysqli_fetch_array($query))
-    {
-        $_SESSION['form_dejparID']=$row['dejparID'];
-        $_SESSION['form_dejparPartneraID'] = $row['dejparPartneraID'];
-        $_SESSION['form_dejparPartneresID'] = $row['dejparPartneresID'];
+    foreach ($groups as $i) {
+        $db->query("INSERT INTO registretie_pari VALUES (null,$comp,$pair,$i)");
     }
+    echo $db->error;
 
-    $query = $db ->query("SELECT * FROM dejotaji where dejotID = ".$_SESSION['form_dejparPartneraID']);
-    while($row = mysqli_fetch_array($query))
-    {
-        $_SESSION['form_dejparPartneraVardsUzvards'] = $row['dejotVardsUzvards'];
-        $_SESSION['form_dejparPartneraVecumaGrupa'] = $row['dejotVecumaGrupa'];
-        $_SESSION['form_dejparPartneraKlase'] = $row['dejotKlase'];
-    }
-
-
-    $query = $db ->query("SELECT * FROM dejotaji where dejotID = ".$_SESSION['form_dejparPartneresID']);
-    while($row = mysqli_fetch_array($query))
-    {
-        $_SESSION['form_dejparPartneresVardsUzvards'] = $row['dejotVardsUzvards'];
-        $_SESSION['form_dejparPartneresVecumaGrupa'] = $row['dejotVecumaGrupa'];
-    }
-    
 
 }
-else if (isset($_POST['reg'])) {
-    if (!isset($_SESSION['form_sacID'])) {
-        ?><script>alert("Nav izvēlētas sacensības!");</script><?php
-    } else if (!isset($_SESSION['form_dejotID'])) {
-        ?><script>alert("Nav izvēlēts dejotājs!");</script><?php
-    } else if (!isset($_SESSION['form_grID_array'])) {
-        ?><script>alert("Nav izvēlēta neviena grupa!");</script><?php
-    } else {
-        for ($i = 0; $i < sizeof($_SESSION['form_grID_array']); $i++) {
-            $db->query("INSERT INTO registretie_pari VALUES (null," . $_SESSION['form_sacID'] . "," . $_SESSION['form_dejparID'] . "," . $_SESSION['form_grID_array'][$i] . ")");
-//       echo "insert into pieteikumi values (null,'test',".$_SESSION['form_sacID'].",".$_SESSION['form_dejparID'].",".$_SESSION['form_grID_array'][0].",'false')";
-            echo $db->error;
-        }
-    }
-}
-header("Location: registracija.php");
+
+
 

@@ -112,7 +112,7 @@ include("db.php");
 
                     var dancer = document.getElementById("dancer").value;
                     var xhr = new XMLHttpRequest();
-                    xhr.open('POST', 'addRegAjax.php', true)
+                    xhr.open('POST', 'addReg.php', true)
                     xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
                     var param = "dancer=" + dancer;
 
@@ -148,7 +148,7 @@ include("db.php");
 
                     var comp = document.getElementById("event").value;
                     var xhr = new XMLHttpRequest();
-                    xhr.open('POST', 'addRegAjax.php', true)
+                    xhr.open('POST', 'addReg.php', true)
                     xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
                     var param = "comp=" + comp;
 
@@ -303,7 +303,7 @@ include("db.php");
                     }
 
                     var xhr = new XMLHttpRequest();
-                    xhr.open('POST', 'addRegAjax.php', true)
+                    xhr.open('POST', 'addReg.php', true)
                     xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
 
                     var pair = document.getElementById('dejparID').innerHTML;

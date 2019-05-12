@@ -1,7 +1,7 @@
-//TODO сделать проверку на совпадение класса группы и класса пары
+<?php
+//TODO сделать проверку на совпадение возраста и класса группы и пары
 //TODO сделать проверку даты регистрации
 
-<?php
 if (session_status() == PHP_SESSION_NONE) {
     session_start();
 }
@@ -126,14 +126,15 @@ include("db.php");
                             var dejparPartneraVardsUzvards = resp[0].prtneraVardsUzvards;
                             var dejparPartneresVardsUzvards = resp[0].prtneresVardsUzvards;
                             var dejparPartneraKlase = resp[0].prtneraKlase;
-                            var dejparPartneresKlase = resp[0].prtneresKlase;
+                            var dejparVecumaGr = resp[0].paraVecGr;
 
                             document.getElementById("dejparID").innerHTML = dejparID;
                             document.getElementById("prtneraID").innerHTML = dejparPartneraID;
                             document.getElementById("prtneresID").innerHTML = dejparPartneresID;
                             document.getElementById("prtneraVardsUzvards").innerHTML = dejparPartneraVardsUzvards;
                             document.getElementById("prtneresVardsUzvards").innerHTML = dejparPartneresVardsUzvards;
-                            document.getElementById("dejparClass").innerHTML = "</br>Partnera: " + dejparPartneraKlase + "</br>Partneres: " + dejparPartneresKlase;
+                            document.getElementById("dejparClass").innerHTML = dejparPartneraKlase;
+                            document.getElementById("dejparVecumaGr").innerHTML = dejparVecumaGr;
                         }
                     };
                     xhr.send(param);
@@ -147,10 +148,12 @@ include("db.php");
                     document.getElementById("gr").hidden = false;
 
                     var comp = document.getElementById("event").value;
+                    var age = document.getElementById("dejparVecumaGr").innerHTML;
+
                     var xhr = new XMLHttpRequest();
                     xhr.open('POST', 'addReg.php', true)
                     xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-                    var param = "comp=" + comp;
+                    var param = "comp=" + comp + "&" + "age=" + age;
 
                     xhr.onload = function () {
                         if (this.status == 200) {
@@ -209,6 +212,15 @@ include("db.php");
                                     Deju para klase:
                                 </td>
                                 <td id="dejparClass">
+                                    ...
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td>
+                                    Deju para vecums:
+                                </td>
+                                <td id="dejparVecumaGr">
                                     ...
                                 </td>
                             </tr>
@@ -316,7 +328,6 @@ include("db.php");
                     xhr.onload = function () {
                         if (this.status == 200) {
                             alert("Reģistrēts!");
-                            alert(this.responseText);
                         }
                     };
 

@@ -1,6 +1,11 @@
 <?php
 if (session_status() == PHP_SESSION_NONE) {
     session_start();
+    if ( isset($_GET['role']) ) { $_SESSION['role'] = $_GET['role'];
+    }
+    else {
+        $_SESSION['role']=0;
+    }
 }
 
 $db = mysqli_connect("127.0.0.1", "root", "0000", "mydb");
@@ -13,7 +18,7 @@ $result = mysqli_query($db, $query);
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Maksims Gorelovs, 161RDB251</title>
+    <title>LSDF - Sacensību saraksts</title>
     <meta http-equiv="content-type" content="text/html; charset=utf-8" />
     <meta name="description" content="" />
     <meta name="keywords" content="" />
@@ -68,14 +73,15 @@ include ("header.php");
                         <?php
                         while($row = mysqli_fetch_array($result))
                         {
-                            echo '
-                                <tr>
-                                    <td>'.$row["sacID"].'</td>
-                                    <td>'.$row["sacNosaukums"].'</td>
-                                    <td>'.$row["sacDatums"].'</td>
-                                    <td>'.$row["sacVieta"].'</td>
-                                </tr>
-                            ';
+                            echo '<tr>';
+                                echo'<td>'.$row["sacID"].'</td>';
+                                echo'<td>';
+                                    echo'<a href="event.php?role='.$row["sacID"].'">'.$row["sacNosaukums"].'</a>';
+                                echo '</td>';
+                                echo'<td>'.$row["sacDatums"].'</td>';
+                                echo'<td>'.$row["sacVieta"].'</td>';
+                            echo'</tr>';
+
                         }
                         ?>
                     </tbody>
@@ -85,44 +91,7 @@ include ("header.php");
 
         </section>
 
-        <?php if(isset($_SESSION['authorized'])): ?>
-        <section id="three" class="wrapper style3 special">
-            <div class="table-wrapper">
-                <form action="add.php" method="post">
-                    <div>
-                        <div>
-                            <div>
-                                <table>
-                                    <tr>
-                                        <td><input id="sacNosaukums" name="sacNosaukums" type="text"
-                                                   placeholder="Sacensibu nosaukums"></td>
-                                        <td><input id="sacDatums" name="sacDatums" type="date"
-                                                   placeholder="Sacensibu datums"></td>
-                                        <td><input id="sacVieta" name="sacVieta" type="text"
-                                                   placeholder="Sacensibu vieta">
-                                        </td>
-                                    </tr>
-                                </table>
-                            </div>
 
-                        </div>
-                        <div class="12u$">
-                            <ul class="actions">
-                                <li><input id="submit" value="Pievienot" class="special big" type="submit"></li>
-                                <script>
-                                    $('#submit').click(function () {
-                                        if ($('#sacNosaukums').val().length == 0 || $('#sacDatums').val().length == 0 || $('#sacVieta').val().length == 0) {
-                                            alert("Ne visi lauki ir aizpilditi!");
-                                        }
-                                    })
-                                </script>
-                            </ul>
-                        </div>
-                    </div>
-                </form>
-            </div>
-        </section>
-        <?php endif; ?>
     </div>
     <?php
     include("footer.php");
@@ -179,4 +148,7 @@ include ("header.php");
 
     });
     <?php endif; ?>
+
+
+
 </script>

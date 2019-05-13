@@ -1,10 +1,10 @@
 <?php
 if (session_status() == PHP_SESSION_NONE) {
     session_start();
-    if ( isset($_GET['role']) ) { $_SESSION['role'] = $_GET['role'];
+    if ( isset($_GET['event']) ) { $_SESSION['event'] = $_GET['event'];
     }
     else {
-        $_SESSION['role']=0;
+        $_SESSION['event']=0;
     }
 }
 
@@ -51,13 +51,12 @@ include ("header.php");
 
         <header class="major">
             <h2>Sacensības</h2>
-            <p>Sacensību saraksts</p>
         </header>
 
 
         <!-- Table -->
         <section>
-            <h3>Tabula</h3>
+            <h3>Sacensību saraksts</h3>
             <div class="table-wrapper">
                 <table id="sacensibas" class="table table-bordered table-striped">
                     <thead>
@@ -76,7 +75,7 @@ include ("header.php");
                             echo '<tr>';
                                 echo'<td>'.$row["sacID"].'</td>';
                                 echo'<td>';
-                                    echo'<a href="event.php?role='.$row["sacID"].'">'.$row["sacNosaukums"].'</a>';
+                                    echo'<a href="event.php?event='.$row["sacID"].'">'.$row["sacNosaukums"].'</a>';
                                 echo '</td>';
                                 echo'<td>'.$row["sacDatums"].'</td>';
                                 echo'<td>'.$row["sacVieta"].'</td>';

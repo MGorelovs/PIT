@@ -1,25 +1,22 @@
 <?php
 if (session_status() == PHP_SESSION_NONE) {
     session_start();
-    if ( isset($_GET['group']) ) { $_SESSION['group'] = $_GET['group'];
-    }
-    else {
-        $_SESSION['group']=0;
-    }
 }
 
 $db = mysqli_connect("127.0.0.1", "root", "0000", "mydb");
 $db->query("SET NAMES utf8mb4");
-$sacID = $_GET['event'];
-$query = "SELECT * FROM sacensibas WHERE sacID = $sacID";
+$grID = $_GET['group'];
+$query = "SELECT * FROM sacensibu_grupas WHERE grID = $grID";
 $result = mysqli_query($db, $query);
 $row = mysqli_fetch_array($result);
 $query = "
-  SELECT DISTINCT (sg.grID) as grID, sg.grVecumaGrupa as grVecumaGrupa, sg.grKlase as grKlase,
-    (SELECT COUNT(regID) FROM registretie_pari WHERE fk_sacID = $sacID) as regParuSk
-  FROM sacensibu_grupas sg
-  JOIN registretie_pari rp ON rp.fk_sacID = sg.fk_sacID
-  WHERE sg.fk_sacID = $sacID";
+  SELECT dp.dejparID AS dejparID, d1.dejotVardsUzvards AS vVardsUzvards, d2.dejotVardsUzvards AS sVardsUzvards
+  FROM registretie_pari rp
+  JOIN deju_pari dp ON rp.fk_dejparID = dp.dejparID
+  JOIN dejotaji d1 ON dp.dejparPartneraID = d1.dejotID
+  JOIN dejotaji d2 ON dp.dejparPartneresID = d2.dejotID
+  WHERE rp.fk_grID = $grID
+";
 $result = mysqli_query($db, $query);
 ?>
 
@@ -27,7 +24,7 @@ $result = mysqli_query($db, $query);
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>LSDF - <?php echo $row["sacNosaukums"]; ?></title>
+    <title>LSDF - <?php echo ($row["grVecumaGrupa"] + ' ' + $row["grKlase"]); ?></title>
     <meta http-equiv="content-type" content="text/html; charset=utf-8" />
     <meta name="description" content="" />
     <meta name="keywords" content="" />
@@ -59,36 +56,27 @@ include ("header.php");
     <div class="container">
 
         <header class="major">
-            <h2><?php echo $row["sacNosaukums"]?></h2>
+            <h2><?php echo "${row["grVecumaGrupa"]} ${row["grKlase"]}" ?></h2>
             <p>Informācija</p>
         </header>
 
 
         <!-- Table -->
         <section>
-            <h3>Sacensību informācijas</h3>
+            <h3>Grupas informācijas</h3>
             <div class="table-wrapper">
                 <table id="dp" style="text-align: left; font-size:10pt">
 
                     <tr>
-                        <td style="width:400px">Sacensību ID:</td>
-                        <td><?php echo $row["sacID"]?></td>
+                        <td style="width:400px">Grupas ID:</td>
+                        <td><?php echo $row["grID"]?></td>
                     </tr>
 
                     <tr>
-                        <td style="width:400px">Sacensību nosaukums</td>
-                        <td><?php echo $row["sacNosaukums"]?></td>
+                        <td style="width:400px">Grupa</td>
+                        <td><?php echo "${row["grVecumaGrupa"]} ${row["grKlase"]}"; ?></td>
                     </tr>
 
-                    <tr>
-                        <td style="width:400px">Sacensību datums</td>
-                        <td><?php echo $row["sacDatums"]?></td>
-                    </tr>
-
-                    <tr>
-                        <td style="width:400px">Norises vieta</td>
-                        <td><?php echo $row["sacVieta"]?></td>
-                    </tr>
 
                 </table>
             </div>
@@ -103,9 +91,9 @@ include ("header.php");
                 <table id="grupas" class="table table-bordered table-striped">
                     <thead>
                     <tr>
-                        <th>ID</th>
-                        <th>Grupa</th>
-                        <th>Reģistrēto pāru skaits</th>
+                        <th>Pāra ID</th>
+                        <th>Partnera Vārds un Uzvārds</th>
+                        <th>Partnere Vārds un Uzvārds</th>
                     </tr>
                     </thead>
 
@@ -113,13 +101,13 @@ include ("header.php");
                     <?php
                     while($grupa = mysqli_fetch_array($result))
                     {
-                        echo '<tr>';
-                        echo'<td>'.$grupa["grID"].'</td>';
-                        echo'<td>';
-                        echo'<a href="registered.php?group='.$grupa["grID"].'">'.$grupa["grVecumaGrupa"].' '.$grupa["grKlase"].'</a>';
-                        echo '</td>';
-                        echo'<td>'.$grupa["regParuSk"].'</td>';
-                        echo'</tr>';
+                        echo '
+                        <tr>
+                            <td>'.$grupa["dejparID"].'</td>
+                            <td>'.$grupa["vVardsUzvards"].'</td>
+                            <td>'.$grupa["sVardsUzvards"].'</td>
+                        </tr>
+                        ';
 
                     }
                     ?>

@@ -1,6 +1,5 @@
-
-
 <?php
+
 if (session_status() == PHP_SESSION_NONE) {
     session_start();
 }
@@ -11,7 +10,7 @@ if (session_status() == PHP_SESSION_NONE) {
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Maksims Gorelovs, 161RDB251</title>
+    <title>LSDF - Reģistrācija</title>
     <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
     <meta name="description" content=""/>
     <meta name="keywords" content=""/>
@@ -130,22 +129,24 @@ include("db.php");
                         if (this.status == 200) {
                             var resp = JSON.parse(this.responseText);
 
+
                             dejparID = resp[0].dpID;
                             dejparPartneraID = resp[0].prtneraID;
                             dejparPartneresID = resp[0].prtneresID;
                             dejparPartneraVardsUzvards = resp[0].prtneraVardsUzvards;
                             dejparPartneresVardsUzvards = resp[0].prtneresVardsUzvards;
                             dejparPartneraKlase = resp[0].prtneraKlase;
-                            dejparPartneresKlase = resp[0].prtneresKlase;
                             dejparPrtneraDzimsanasDatums = resp[0].prtneraDzimsanasDatums;
                             dejparPrtneresDzimsanasDatums = resp[0].prtneresDzimsanasDatums;
+
 
                             document.getElementById("dejparID").innerHTML = dejparID;
                             document.getElementById("prtneraID").innerHTML = dejparPartneraID;
                             document.getElementById("prtneresID").innerHTML = dejparPartneresID;
                             document.getElementById("prtneraVardsUzvards").innerHTML = dejparPartneraVardsUzvards;
                             document.getElementById("prtneresVardsUzvards").innerHTML = dejparPartneresVardsUzvards;
-                            document.getElementById("dejparClass").innerHTML = "</br>Partnera: " + dejparPartneraKlase + "</br>Partneres: " + dejparPartneresKlase;
+                            document.getElementById("dejparClass").innerHTML = dejparPartneraKlase;
+                            document.getElementById("dejparVecumaGr").innerHTML = dejparVecumaGr;
                         }
                     };
                     xhr.send(param);
@@ -159,10 +160,12 @@ include("db.php");
                     document.getElementById("gr").hidden = false;
 
                     var comp = document.getElementById("event").value;
+                    var age = document.getElementById("dejparVecumaGr").innerHTML;
+
                     var xhr = new XMLHttpRequest();
                     xhr.open('POST', 'addReg.php', true)
                     xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-                    var param = "comp=" + comp;
+                    var param = "comp=" + comp + "&" + "age=" + age;
 
                     xhr.onload = function () {
                         if (this.status == 200) {
@@ -235,6 +238,15 @@ include("db.php");
                                     Deju para klase:
                                 </td>
                                 <td id="dejparClass">
+                                    ...
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td>
+                                    Deju para vecums:
+                                </td>
+                                <td id="dejparVecumaGr">
                                     ...
                                 </td>
                             </tr>
@@ -437,7 +449,6 @@ include("db.php");
                     xhr.onload = function () {
                         if (this.status == 200) {
                             alert("Reģistrēts!");
-                            alert(this.responseText);
                         }
                     };
 

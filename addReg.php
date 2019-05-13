@@ -4,9 +4,11 @@ if (session_status() == PHP_SESSION_NONE) {
 }
 include("db.php");
 
-if (isset($_POST['comp'])) {
+if (isset($_POST['comp']) && isset($_POST['age'])) {
     $comp = $_POST['comp'];
-    $query = "SELECT * FROM sacensibu_grupas WHERE fk_sacID = $comp";
+    $age = $_POST['age'];
+
+    $query = "SELECT * FROM sacensibu_grupas WHERE fk_sacID = $comp AND grVecumaGrupa = $age";
     $result = $db->query($query);
     $comps = mysqli_fetch_all($result, MYSQLI_ASSOC);
 
@@ -16,6 +18,7 @@ if (isset($_POST['comp'])) {
 if (isset($_POST['dancer'])) {
     $dancer = $_POST['dancer'];
     $query = "
+
     SELECT dpID,prtneraID,prtneraVardsUzvards,prtneraKlase,prtneresID,dejotVardsUzvards as prtneresVardsUzvards,dejotKlase as prtneresKlase,dejotDzimsanasDatums as prtneresDzimsanasDatums, prtneraDzimsanasDatums FROM
 (SELECT dpID,prtneraID,prtneresID,dejotVardsUzvards as prtneraVardsUzvards,dejotKlase as prtneraKlase,dejotDzimsanasDatums as prtneraDzimsanasDatums
 FROM
@@ -26,6 +29,7 @@ dejotaji
 WHERE dejotID=prtneraID) as prtneraTable,
 dejotaji
 WHERE dejotID=prtneresID;
+
         ";
     $result = $db->query($query);
     $dancepair = mysqli_fetch_all($result, MYSQLI_ASSOC);
@@ -45,6 +49,6 @@ if (isset($_POST['r_pair']) && isset($_POST['r_comp']) && isset($_POST['r_groups
 
 
 }
-
+?>
 
 

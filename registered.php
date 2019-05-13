@@ -88,7 +88,7 @@ include ("header.php");
         <br>
         <!-- Table -->
         <section>
-            <h3>Grupas</h3>
+            <h3>Reģistrētie pāri</h3>
             <div class="table-wrapper">
                 <table id="grupas" class="table table-bordered table-striped">
                     <thead>

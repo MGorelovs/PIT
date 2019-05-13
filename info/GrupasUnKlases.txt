@@ -1,10 +1,10 @@
 Vecuma grupas:
-Bērni 1 (2010 un jaunāki)
-Bērni 2 (2008-2009)
-Juniori 1 (2006-2007)
-Juniori 2 (2004-2005)
-Jaunieši (2001-2003)
-Pieaugušie (2000 un vecāki)
+Bērni 1 (2010 un jaunāki) = 9 years (Child 1)
+Bērni 2 (2008-2009) = 10-11 years (Child 2)
+Juniori 1 (2006-2007) = 12-13 years (Junior 1)
+Juniori 2 (2004-2005) = 14-15 years (Junior 2)
+Jaunieši (2001-2003) = 16-18 years (Teen)
+Pieaugušie (2000 un vecāki) = >18 years (Adult)
 
 Deju klases и какие танцы исполняют:
 Iesācēji 1 (W, CH)

@@ -1,4 +1,6 @@
 <?php
+// TODO Добавить ссылки и присвоение SESSION для авторизованного юзера (на данный момент работает только без авторизации)
+// TODO Добавить Add/Edit/Delete функционал
 if (session_status() == PHP_SESSION_NONE) {
     session_start();
 }
@@ -86,7 +88,7 @@ include ("header.php");
         <br>
         <!-- Table -->
         <section>
-            <h3>Grupas</h3>
+            <h3>Reģistrētie pāri</h3>
             <div class="table-wrapper">
                 <table id="grupas" class="table table-bordered table-striped">
                     <thead>

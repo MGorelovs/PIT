@@ -1,5 +1,5 @@
-//TODO сделать проверку на совпадение класса группы и класса пары
-//TODO сделать проверку даты регистрации
+<!--TODO сделать проверку на совпадение класса группы и класса пары-->
+<!--TODO сделать проверку даты регистрации-->
 
 <?php
 if (session_status() == PHP_SESSION_NONE) {
@@ -41,15 +41,16 @@ include("db.php");
 <script>
     var dancerChosen = false;
     var compChosen = false;
-    var pairLoaded = false;
-    var groupsLoaded = false;
+    var groupChosen = false;
+
+    // var pairLoaded = false;
+    // var groupsLoaded = false;
 </script>
 
 
 <!-- Two -->
 <section id="two" class="wrapper style2 special">
     <div class="container">
-
 
         <form action="addReg.php" method="post">
 
@@ -86,7 +87,7 @@ include("db.php");
                                 date_sub($closeDate, date_interval_create_from_date_string("1 days"));
                                 $closeDate->setTime(23, 59);
 
-                                echo "<option value='" . $row['sacID'] . "'>" . $row['sacNosaukums'] . " | " . $row['sacDatums'] . " | " . $row['sacVieta'] . "  (Reģistrācija beigsies: " . $closeDate->format('Y-m-d H:i:s') . ")</option>";
+                                echo "<option data-closeDate='" . $closeDate->format('Y-m-d H:i:s') . "' value='" . $row['sacID'] . "'>" . $row['sacNosaukums'] . " | " . $row['sacDatums'] . " | " . $row['sacVieta'] . "  (Reģistrācija beigsies: " . $closeDate->format('Y-m-d H:i:s') . ")</option>";
                             }
                             if (!isset($_SESSION['form_sacID']))
                                 echo "<option value=\"\" selected disabled hidden>Izveleties...</option>";
@@ -100,6 +101,16 @@ include("db.php");
             </table>
 
             <script>
+                var dejparID;
+                var dejparPartneraID;
+                var dejparPartneresID;
+                var dejparPartneraVardsUzvards;
+                var dejparPartneresVardsUzvards;
+                var dejparPartneraKlase;
+                var dejparPartneresKlase;
+                var dejparPrtneraDzimsanasDatums;
+                var dejparPrtneresDzimsanasDatums;
+
                 document.getElementById("dancer").addEventListener("change", getPair)
                 document.getElementById("event").addEventListener("change", getComp)
 
@@ -120,13 +131,15 @@ include("db.php");
                         if (this.status == 200) {
                             var resp = JSON.parse(this.responseText);
 
-                            var dejparID = resp[0].dpID;
-                            var dejparPartneraID = resp[0].prtneraID;
-                            var dejparPartneresID = resp[0].prtneresID;
-                            var dejparPartneraVardsUzvards = resp[0].prtneraVardsUzvards;
-                            var dejparPartneresVardsUzvards = resp[0].prtneresVardsUzvards;
-                            var dejparPartneraKlase = resp[0].prtneraKlase;
-                            var dejparPartneresKlase = resp[0].prtneresKlase;
+                            dejparID = resp[0].dpID;
+                            dejparPartneraID = resp[0].prtneraID;
+                            dejparPartneresID = resp[0].prtneresID;
+                            dejparPartneraVardsUzvards = resp[0].prtneraVardsUzvards;
+                            dejparPartneresVardsUzvards = resp[0].prtneresVardsUzvards;
+                            dejparPartneraKlase = resp[0].prtneraKlase;
+                            dejparPartneresKlase = resp[0].prtneresKlase;
+                            dejparPrtneraDzimsanasDatums = resp[0].prtneraDzimsanasDatums;
+                            dejparPrtneresDzimsanasDatums = resp[0].prtneresDzimsanasDatums;
 
                             document.getElementById("dejparID").innerHTML = dejparID;
                             document.getElementById("prtneraID").innerHTML = dejparPartneraID;
@@ -157,11 +170,12 @@ include("db.php");
 
                             var resp = JSON.parse(this.responseText);
 
+                            document.getElementById("gr").innerHTML = "";
                             for (let i of resp) {
                                 document.getElementById("gr").innerHTML +=
                                     "<tr>" +
                                     "<td>" +
-                                    "<input type=checkbox name=\"form_group[]\" value="+i['grID']+">" +
+                                    "<input data-grVecumaGrupa='" + i['grVecumaGrupa'] + "' type=checkbox name=\"form_group[]\" value=" + i['grID'] + ">" +
                                     "</td>" +
                                     "<td>" +
                                     i['grVecumaGrupa'] +
@@ -170,6 +184,19 @@ include("db.php");
                                     i['grKlase'] +
                                     "</td>" +
                                     "</tr>"
+
+                                var checks = document.querySelectorAll('input[type=checkbox]')
+
+                                for (c of checks) {
+                                    c.addEventListener("click", function () {
+                                        groupChosen = false;
+                                        for (c of checks) {
+                                            if (c.checked)
+                                                groupChosen = true;
+                                        }
+                                        errorChecking();
+                                    })
+                                }
                             }
                         }
                     };
@@ -259,15 +286,19 @@ include("db.php");
                         <style>
                             #gr th {
                                 text-align: center
-                            };
+                            }
+
+                            ;
                             #gr tr {
                                 height: 20px
-                            };
+                            }
+
+                            ;
                         </style>
                         <div id="placeholder2">Jāizvelas vienu no sacensībam...</div>
                         <table id="gr" hidden>
                             <tr>
-                                <th style ="width:20px"></th>
+                                <th style="width:20px"></th>
                                 <th>Vecuma Grupa</th>
                                 <th>Klase</th>
                             </tr>
@@ -277,19 +308,110 @@ include("db.php");
             </table>
             <input disabled id="register" type="button" value="Reģistrēt" name="reg">
 
+            <div id="errorWrapper" hidden style="color:red">
+
+                <div>Kļudas:</div>
+
+                <div id="error">
+                </div>
+            </div>
             <script>
 
-                document.getElementById('dancer').addEventListener('change', enableButton);
-                document.getElementById('event').addEventListener('change', enableButton);
+                document.getElementById('dancer').addEventListener('change', errorChecking);
+                document.getElementById('event').addEventListener('change', errorChecking);
 
-                function enableButton() {
-                    if (compChosen && dancerChosen)
+                function errorChecking() {
+                    var errorHTML = "";
+                    var dateValid = false;
+
+                    var closeDate = $("#event").find("option:selected").data("closedate");
+                    closeDate = new Date(closeDate);
+                    var today = new Date();
+
+                    if (today > closeDate)
+                        dateValid = false;
+                    else
+                        dateValid = true;
+
+                    var groupValid = true;
+
+
+                    var selGroups = $("input[type=checkbox]:checked").toArray();
+                    var prtneraVecums = new Date().getFullYear() - new Date(dejparPrtneraDzimsanasDatums).getFullYear()
+                    var prtneresVecums = new Date().getFullYear() - new Date(dejparPrtneresDzimsanasDatums).getFullYear()
+
+                    var vg;
+
+                    for (gr of selGroups) {
+
+                        vg = gr.getAttribute("data-grVecumaGrupa")
+
+                        switch (vg) {
+                            case "Child 1":
+                                if (prtneraVecums > 9 || prtneresVecums > 9)
+                                    groupValid = false;
+                                break
+                            case "Child 2":
+                                if ((prtneraVecums > 11 || prtneraVecums < 10) || (prtneresVecums > 11 || prtneresVecums < 10))
+                                    groupValid = false;
+                                break
+                            case "Junior 1":
+                                if ((prtneraVecums > 13 || prtneraVecums < 12) || (prtneresVecums > 13 || prtneresVecums < 12))
+                                    groupValid = false;
+                                break
+                            case "Junior 2":
+                                if ((prtneraVecums > 15 || prtneraVecums < 14) || (prtneresVecums > 15 || prtneresVecums < 14))
+                                    groupValid = false;
+                                break
+                            case "Teen":
+                                if ((prtneraVecums > 18 || prtneraVecums < 16) || (prtneresVecums > 18 || prtneresVecums < 16))
+                                    groupValid = false;
+                                break
+                            case "Adult":
+                                if (prtneraVecums < 18 || prtneresVecums < 18)
+                                    groupValid = false;
+                                break
+
+                        }
+
+
+                    }
+
+
+                    if (compChosen && dancerChosen && groupChosen && dateValid && groupValid) {
+                        errorHTML = "";
                         document.getElementById('register').disabled = false;
+                        document.getElementById('errorWrapper').hidden = true;
+                    } else {
+                        if (!compChosen) {
+                            errorHTML += "Nav izvelēta sacensība</br>"
+                        }
 
+                        if (!dancerChosen) {
+                            errorHTML += "Nav izvelēts dejotājs<br>"
+                        }
+
+                        if (!groupChosen) {
+                            errorHTML += "Nav izvelēta grupa<br>"
+                        }
+
+                        if (!dateValid) {
+                            errorHTML += "Šai sacensibai reģistracija ir beigusies<br>"
+                        }
+
+                        if (!groupValid)
+                            errorHTML += "Izveletas grupas nepieļauj šo deju pari pec vecuma grupas<br>"
+
+
+                        document.getElementById('register').disabled = true;
+                        document.getElementById('errorWrapper').hidden = false;
+                    }
+
+                    document.getElementById('error').innerHTML = errorHTML;
                 }
 
 
-                document.getElementById('register').addEventListener('click',function (){
+                document.getElementById('register').addEventListener('click', function () {
                     var grID_array = [];
                     var checkboxes = document.querySelectorAll('input[type=checkbox]:checked')
 

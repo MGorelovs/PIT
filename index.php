@@ -8,7 +8,7 @@
 <html lang="en">
     <head>
         <meta charset="UTF-8">
-        <title>Maksims Gorelovs, 161RDB251</title>
+        <title>LSDF - Mājas lapa</title>
         <meta http-equiv="content-type" content="text/html; charset=utf-8" />
         <meta name="description" content="" />
         <meta name="keywords" content="" />

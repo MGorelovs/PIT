@@ -1,6 +1,11 @@
 <?php
 if (session_status() == PHP_SESSION_NONE) {
     session_start();
+    if ( isset($_GET['role']) ) { $_SESSION['role'] = $_GET['role'];
+    }
+    else {
+        $_SESSION['role']=0;
+    }
 }
 
 $db = mysqli_connect("127.0.0.1", "root", "0000", "mydb");
@@ -13,7 +18,7 @@ $result = mysqli_query($db, $query);
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Maksims Gorelovs, 161RDB251</title>
+    <title>LSDF - Sacensību saraksts</title>
     <meta http-equiv="content-type" content="text/html; charset=utf-8" />
     <meta name="description" content="" />
     <meta name="keywords" content="" />

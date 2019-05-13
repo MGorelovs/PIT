@@ -16,8 +16,8 @@ if (isset($_POST['comp'])) {
 if (isset($_POST['dancer'])) {
     $dancer = $_POST['dancer'];
     $query = "
-    SELECT dpID,prtneraID,prtneraVardsUzvards,prtneraKlase,prtneresID,dejotVardsUzvards as prtneresVardsUzvards,dejotKlase as prtneresKlase  FROM
-(SELECT dpID,prtneraID,prtneresID,dejotVardsUzvards as prtneraVardsUzvards,dejotKlase as prtneraKlase
+    SELECT dpID,prtneraID,prtneraVardsUzvards,prtneraKlase,prtneresID,dejotVardsUzvards as prtneresVardsUzvards,dejotKlase as prtneresKlase,dejotDzimsanasDatums as prtneresDzimsanasDatums, prtneraDzimsanasDatums FROM
+(SELECT dpID,prtneraID,prtneresID,dejotVardsUzvards as prtneraVardsUzvards,dejotKlase as prtneraKlase,dejotDzimsanasDatums as prtneraDzimsanasDatums
 FROM
 (SELECT dejparID as dpID,dejparPartneraID as prtneraID,dejparPartneresID as prtneresID
 from deju_pari

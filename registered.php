@@ -1,4 +1,6 @@
 <?php
+// TODO Добавить ссылки и присвоение SESSION для авторизованного юзера (на данный момент работает только без авторизации)
+// TODO Добавить Add/Edit/Delete функционал
 if (session_status() == PHP_SESSION_NONE) {
     session_start();
 }

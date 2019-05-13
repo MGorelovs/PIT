@@ -1,4 +1,5 @@
 <?php
+// TODO Добавить ссылки и присвоение SESSION для авторизованного юзера (на данный момент работает только без авторизации)
 if (session_status() == PHP_SESSION_NONE) {
     session_start();
     if ( isset($_GET['event']) ) { $_SESSION['event'] = $_GET['event'];

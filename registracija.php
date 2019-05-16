@@ -1,6 +1,3 @@
-<!--TODO сделать проверку на совпадение класса группы и класса пары-->
-<!--TODO сделать проверку даты регистрации-->
-
 <?php
 if (session_status() == PHP_SESSION_NONE) {
     session_start();
@@ -131,15 +128,16 @@ include("db.php");
                         if (this.status == 200) {
                             var resp = JSON.parse(this.responseText);
 
+
                             dejparID = resp[0].dpID;
                             dejparPartneraID = resp[0].prtneraID;
                             dejparPartneresID = resp[0].prtneresID;
                             dejparPartneraVardsUzvards = resp[0].prtneraVardsUzvards;
                             dejparPartneresVardsUzvards = resp[0].prtneresVardsUzvards;
                             dejparPartneraKlase = resp[0].prtneraKlase;
-                            dejparPartneresKlase = resp[0].prtneresKlase;
                             dejparPrtneraDzimsanasDatums = resp[0].prtneraDzimsanasDatums;
                             dejparPrtneresDzimsanasDatums = resp[0].prtneresDzimsanasDatums;
+
 
                             document.getElementById("dejparID").innerHTML = dejparID;
                             document.getElementById("prtneraID").innerHTML = dejparPartneraID;
@@ -373,8 +371,6 @@ include("db.php");
                                 break
 
                         }
-
-
                     }
 
 

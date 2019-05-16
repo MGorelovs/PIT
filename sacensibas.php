@@ -91,6 +91,44 @@ include ("header.php");
 
         </section>
 
+        <?php if(isset($_SESSION['authorized'])): ?>
+            <section id="three" class="wrapper style3 special">
+                <div class="table-wrapper">
+                    <form action="addEvent.php" method="post">
+                        <div>
+                            <div>
+                                <div>
+                                    <table>
+                                        <tr>
+                                            <td><input id="sacNosaukums" name="sacNosaukums" type="text"
+                                                       placeholder="Sacensibu nosaukums"></td>
+                                            <td><input id="sacDatums" name="sacDatums" type="date"
+                                                       placeholder="Sacensibu datums"></td>
+                                            <td><input id="sacVieta" name="sacVieta" type="text"
+                                                       placeholder="Sacensibu vieta">
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+
+                            </div>
+                            <div class="12u$">
+                                <ul class="actions">
+                                    <li><input id="submit" value="Pievienot" class="special big" type="submit"></li>
+                                    <script>
+                                        $('#submit').click(function () {
+                                            if ($('#sacNosaukums').val().length == 0 || $('#sacDatums').val().length == 0 || $('#sacVieta').val().length == 0) {
+                                                alert("Ne visi lauki ir aizpilditi!");
+                                            }
+                                        })
+                                    </script>
+                                </ul>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </section>
+        <?php endif; ?>
 
     </div>
     <?php
@@ -98,57 +136,3 @@ include ("header.php");
     ?>
 </body>
 </html>
-<script>
-    <?php if(isset($_SESSION['authorized'])): ?>
-
-    $(document).ready(function(){
-        $('#sacensibas').Tabledit({
-            url:'action.php',
-            hideIdentifier: true,
-            columns:{
-                identifier:[0, 'sacID'],
-                editable:[[1, "sacNosaukums"], [2, 'sacDatums'], [3, "sacVieta"]]
-            },
-            restoreButton: false,
-            onSuccess:function(data, textStatus, jqXHR)
-            {
-                if(data.action === 'delete')
-                {
-                    $('#'+data.id).remove();
-                }
-                if (data.type && data.message) {
-                    $('.alert-container').Alertiny(data.type, data.message);
-                }
-            },
-            onDraw: function() {
-                $('table tbody tr td:nth-child(3)').each(function() {
-                    $(this).datepicker({
-                        format: 'yyyy-mm-dd',
-                        todayHighlight: true,
-                        autoFocus: false,
-                        startDate: '+1d',
-                        weekStart: 1,
-                        autoclose: true,
-                        language: 'lv'
-                    });
-                });
-            },
-            onFail: function(jqXHR, textStatus, errorThrown) {
-                console.log('onFail(jqXHR, textStatus, errorThrown)');
-                console.log(jqXHR);
-                console.log(textStatus);
-                console.log(errorThrown);
-            },
-            onAjax: function(action, serialize) {
-                console.log('onAjax(action, serialize)');
-                console.log(action);
-                console.log(serialize);
-            }
-        });
-
-    });
-    <?php endif; ?>
-
-
-
-</script>

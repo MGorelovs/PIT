@@ -131,6 +131,58 @@ include ("header.php");
             </div>
 
         </section>
+
+        <?php if(isset($_SESSION['authorized'])): ?>
+            <section id="three" class="wrapper style3 special">
+                <div class="table-wrapper">
+                    <form action="addGroup.php?event=<?php echo $row["sacID"]; ?>" method="post">
+                        <div>
+                            <div>
+                                <div>
+                                    <table>
+                                        <tr>
+                                            <td>
+                                                <select id="grVecumaGrupa" name = "grVecumaGrupa">
+                                                    <option selected value = "Bērni 1">Bērni 1</option>
+                                                    <option value = "Bērni 2">Bērni 2</option>
+                                                    <option value = "Juniori 1">Juniori 1</option>
+                                                    <option value = "Juniori 2">Juniori 2</option>
+                                                    <option value = "Jaunieši">Jaunieši</option>
+                                                    <option value = "Pieaugušie">Pieaugušie</option>
+                                                </select>
+                                            </td>
+
+                                            <td>
+                                                <select id="grKlase" name = "grKlase">
+                                                    <option selected value = "Iesācēji 1">Iesācēji 1</option>
+                                                    <option value = "Iesācēji 2">Iesācēji 2</option>
+                                                    <option value = "Iesācēji 3">Iesācēji 3</option>
+                                                    <option value = "E4">E4</option>
+                                                    <option value = "E6">E6</option>
+                                                    <option value = "D">D</option>
+                                                    <option value = "C">C</option>
+                                                    <option value = "B">B</option>
+                                                    <option value = "A">A</option>
+                                                    <option value = "S">S</option>
+                                                </select>
+                                            </td>
+
+                                        </tr>
+                                    </table>
+                                </div>
+
+                            </div>
+                            <div class="12u$">
+                                <ul class="actions">
+                                    <li><input id="submit" value="Pievienot" class="special big" type="submit"></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </section>
+        <?php endif; ?>
+
         <br>
         <br>
 

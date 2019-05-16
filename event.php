@@ -20,7 +20,7 @@ $query = "
   SELECT DISTINCT (sg.grID) as grID, sg.grVecumaGrupa as grVecumaGrupa, sg.grKlase as grKlase,
     (SELECT COUNT(regID) FROM registretie_pari WHERE fk_sacID = $sacID) as regParuSk
   FROM sacensibu_grupas sg
-  JOIN registretie_pari rp ON rp.fk_sacID = sg.fk_sacID
+  LEFT JOIN registretie_pari rp ON rp.fk_sacID = sg.fk_sacID
   WHERE sg.fk_sacID = $sacID";
 $result = mysqli_query($db, $query);
 ?>

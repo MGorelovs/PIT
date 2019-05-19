@@ -39,6 +39,8 @@ include("db.php");
     var dancerChosen = false;
     var compChosen = false;
     var groupChosen = false;
+    var notAlreadyRegistered = true;
+    var groups_check = [];
 
     // var pairLoaded = false;
     // var groupsLoaded = false;
@@ -120,7 +122,7 @@ include("db.php");
 
                     var dancer = document.getElementById("dancer").value;
                     var xhr = new XMLHttpRequest();
-                    xhr.open('POST', 'addReg.php', true)
+                    xhr.open('POST', 'addReg.php', false)
                     xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
                     var param = "dancer=" + dancer;
 
@@ -135,6 +137,7 @@ include("db.php");
                             dejparPartneraVardsUzvards = resp[0].prtneraVardsUzvards;
                             dejparPartneresVardsUzvards = resp[0].prtneresVardsUzvards;
                             dejparPartneraKlase = resp[0].prtneraKlase;
+                            dejparPartneresKlase = resp[0].prtneresKlase;
                             dejparPrtneraDzimsanasDatums = resp[0].prtneraDzimsanasDatums;
                             dejparPrtneresDzimsanasDatums = resp[0].prtneresDzimsanasDatums;
 
@@ -159,7 +162,7 @@ include("db.php");
 
                     var comp = document.getElementById("event").value;
                     var xhr = new XMLHttpRequest();
-                    xhr.open('POST', 'addReg.php', true)
+                    xhr.open('POST', 'addReg.php', false);
                     xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
                     var param = "comp=" + comp;
 
@@ -373,9 +376,54 @@ include("db.php");
                         }
                     }
 
+                    var groups_check_json;
 
-                    if (compChosen && dancerChosen && groupChosen && dateValid && groupValid) {
-                        errorHTML = "";
+                    notAlreadyRegistered = true;
+
+                    var checkboxes = document.querySelectorAll('input[type=checkbox]:checked')
+
+                    var grID_array = [];
+
+                    for (let i of checkboxes) {
+                        grID_array.push(i.value);
+                    }
+
+                    var xhr = new XMLHttpRequest();
+                    xhr.open('POST', 'addReg.php', false)
+                    xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+
+                    var pair = document.getElementById('dejparID').innerHTML;
+                    var comp = document.getElementById('event').value;
+                    var groups = JSON.stringify(grID_array);
+
+
+                    var param = "check_pair=" + pair + "&" + "check_comp=" + comp + "&" + "check_groups=" + groups;
+
+                    xhr.onload = function () {
+                        if (this.status == 200) {
+
+                            groups_check_json = JSON.parse(this.responseText);
+                            groups_check = [];
+
+                            Object.keys(groups_check_json).forEach(function (key) {
+                                groups_check[key - 1] = groups_check_json[key];
+                            })
+
+                            // groups_check = Object.keys(groups_check_json).map(function(_) { return groups_check_json[_]; });
+                        }
+                    };
+                    xhr.send(param);
+
+
+                    for (i of groups_check) {
+                        if (i == true)
+                            notAlreadyRegistered = false;
+                    }
+
+
+                    errorHTML = "";
+                    if (compChosen && dancerChosen && groupChosen && dateValid && groupValid && notAlreadyRegistered) {
+
                         document.getElementById('register').disabled = false;
                         document.getElementById('errorWrapper').hidden = true;
                     } else {
@@ -396,9 +444,16 @@ include("db.php");
                         }
 
                         if (!groupValid)
-                            errorHTML += "Izveletas grupas nepieļauj šo deju pari pec vecuma grupas<br>"
+                            errorHTML += "Deju parim nav atļauts reģistrēties šaja grupā<br>"
 
+                        if (!notAlreadyRegistered) {
+                            for (var i = 0; i < groups_check.length; i++) {
+                                if (groups_check[i]) {
+                                    errorHTML += "Paris jau reģistrēts grupa " + (i + 1) + "<br>"
+                                }
+                            }
 
+                        }
                         document.getElementById('register').disabled = true;
                         document.getElementById('errorWrapper').hidden = false;
                     }

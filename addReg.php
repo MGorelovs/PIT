@@ -13,6 +13,29 @@ if (isset($_POST['comp'])) {
     echo json_encode($comps);
 }
 
+if (isset($_POST['check_pair']) && isset($_POST['check_comp']) && isset($_POST['check_groups'])) {
+    $pair = $_POST['check_pair'];
+    $comp = $_POST['check_comp'];
+    $groups = json_decode($_POST['check_groups']);
+
+    $already_reg_gr = array();
+    foreach ($groups as $i) {
+        $result = $db->query("SELECT * FROM registretie_pari WHERE fk_sacID=$comp AND fk_dejparID=$pair AND fk_grID =$i");
+        $data = mysqli_fetch_all($result, MYSQLI_ASSOC);
+//        echo print_r($data);
+        if ($data != null) {
+            $already_reg_gr[$i] = true;
+        } else {
+            $already_reg_gr[$i] = false;
+        }
+    }
+//    echo print_r($already_reg_gr);
+    echo json_encode($already_reg_gr);
+
+}
+
+
+
 if (isset($_POST['dancer'])) {
     $dancer = $_POST['dancer'];
     $query = "
@@ -41,8 +64,6 @@ if (isset($_POST['r_pair']) && isset($_POST['r_comp']) && isset($_POST['r_groups
     foreach ($groups as $i) {
         $db->query("INSERT INTO registretie_pari VALUES (null,$comp,$pair,$i)");
     }
-    echo $db->error;
-
 
 }
 
